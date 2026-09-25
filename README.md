@@ -7,6 +7,7 @@
   [![FastAPI](https://img.shields.io/badge/API-FastAPI%200.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
   [![Cloud Storage](https://img.shields.io/badge/Storage-S3--Compatible%20Vault-FF9900?logo=amazons3&logoColor=white)](docs/CLOUD_CONCEPTS.md)
   [![Tests](https://img.shields.io/badge/Tests-19%20Passed-success?logo=pytest&logoColor=white)](tests/)
+  [![Contributing](https://img.shields.io/badge/Contributions-Welcome-orange.svg)](CONTRIBUTING.md)
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 </div>
 
