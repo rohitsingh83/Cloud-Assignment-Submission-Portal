@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <filter id="modalShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGrad)" />
+
+  <!-- Background App Table Mockup -->
+  <g opacity="0.25">
+    <rect x="50" y="50" width="1100" height="700" rx="16" fill="#1e293b" />
+    <rect x="70" y="80" width="1060" height="40" rx="8" fill="#334155" />
+    <rect x="70" y="140" width="1060" height="45" rx="8" fill="#1e293b" />
+    <rect x="70" y="200" width="1060" height="45" rx="8" fill="#1e293b" />
+    <rect x="70" y="260" width="1060" height="45" rx="8" fill="#1e293b" />
+  </g>
+
+  <!-- Grading Modal Dialog -->
+  <g transform="translate(320, 90)" filter="url(#modalShadow)">
+    <rect width="560" height="620" rx="24" fill="#ffffff" />
+
+    <!-- Header -->
+    <rect width="560" height="75" rx="24" fill="#f8fafc" />
+    <rect x="0" y="60" width="560" height="15" fill="#f8fafc" />
+    <line x1="0" y1="75" x2="560" y2="75" stroke="#e2e8f0" stroke-width="1" />
+
+    <circle cx="45" cy="38" r="18" fill="#e0e7ff" />
+    <text x="45" y="44" fill="#4f46e5" font-family="'Segoe UI', sans-serif" font-size="16" text-anchor="middle">&#x270E;</text>
+
+    <text x="75" y="34" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="900">Review &amp; Award Marks</text>
+    <text x="75" y="52" fill="#64748b" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600">Student: Alex Chen &#8226; Task: Distributed Object Store Engine</text>
+
+    <!-- Student Info Pill Card -->
+    <rect x="30" y="95" width="500" height="60" rx="12" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="45" y="118" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700">SUBMISSION METADATA:</text>
+    <text x="45" y="138" fill="#0f172a" font-family="'Segoe UI', sans-serif" font-size="12">File: <tspan font-family="monospace" fill="#4f46e5">alex_chen_capstone.pdf</tspan> &#8226; Submitted: On-Time &#8226; Max Marks: 100</text>
+
+    <!-- Marks Input Section -->
+    <text x="30" y="185" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800">AWARD MARKS (MAX: 100)</text>
+    <rect x="30" y="195" width="500" height="46" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="45" y="225" fill="#1e293b" font-family="'Segoe UI', sans-serif" font-size="18" font-weight="900">96.0</text>
+    <text x="495" y="224" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="12" text-anchor="end">/ 100.0 pts</text>
+
+    <!-- Presets Section -->
+    <text x="30" y="268" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="800">QUALITATIVE FEEDBACK</text>
+    <text x="530" y="268" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10" text-anchor="end">1-Click Presets:</text>
+
+    <g transform="translate(30, 278)">
+      <rect x="0" y="0" width="115" height="24" rx="6" fill="#eef2ff" stroke="#c7d2fe" />
+      <text x="57" y="16" fill="#4338ca" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">&#x1F31F; Outstanding</text>
+
+      <rect x="123" y="0" width="135" height="24" rx="6" fill="#ecfdf5" stroke="#a7f3d0" />
+      <text x="190" y="16" fill="#065f46" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">&#x2714; Well-documented</text>
+
+      <rect x="266" y="0" width="115" height="24" rx="6" fill="#fffbeb" stroke="#fde68a" />
+      <text x="323" y="16" fill="#92400e" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">&#x26A0; Minor Bug</text>
+
+      <rect x="389" y="0" width="111" height="24" rx="6" fill="#fff1f2" stroke="#fecdd3" />
+      <text x="444" y="16" fill="#9f1239" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="700" text-anchor="middle">&#x23F1; Late Policy</text>
+    </g>
+
+    <!-- Feedback Textarea -->
+    <rect x="30" y="312" width="500" height="170" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="45" y="338" fill="#1e293b" font-family="'Segoe UI', sans-serif" font-size="12.5" font-weight="500">"Flawless decoupled architecture! Exceptional S3 storage path hierarchy,</text>
+    <text x="45" y="358" fill="#1e293b" font-family="'Segoe UI', sans-serif" font-size="12.5" font-weight="500">robust atomic transactions, and zero cross-tenant leakage observed.</text>
+    <text x="45" y="378" fill="#1e293b" font-family="'Segoe UI', sans-serif" font-size="12.5" font-weight="500">Benchmark results are clearly tabulated and documentation is exemplary."</text>
+
+    <text x="45" y="468" fill="#94a3b8" font-family="'Segoe UI', sans-serif" font-size="10">Saved to cloud database &#8226; Available instantly in student's dashboard</text>
+
+    <!-- Footer Buttons -->
+    <line x1="30" y1="510" x2="530" y2="510" stroke="#f1f5f9" stroke-width="1" />
+    
+    <rect x="290" y="535" width="90" height="42" rx="10" fill="#f1f5f9" />
+    <text x="335" y="561" fill="#475569" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" text-anchor="middle">Cancel</text>
+
+    <rect x="390" y="535" width="140" height="42" rx="10" fill="#4f46e5" />
+    <text x="460" y="561" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" text-anchor="middle">&#x2714; Save Evaluation</text>
+  </g>
+</svg>
