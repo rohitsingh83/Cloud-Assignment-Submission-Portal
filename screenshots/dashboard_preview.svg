@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="100%" height="100%" style="background:#0f172a; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="1100" height="680" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <defs>
     <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#4f46e5" />
@@ -8,6 +9,9 @@
       <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
     </filter>
   </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="680" fill="#0f172a" />
 
   <!-- App Header Bar -->
   <rect x="30" y="20" width="1040" height="65" rx="14" fill="#1e293b" stroke="#334155" filter="url(#cardShadow)" />

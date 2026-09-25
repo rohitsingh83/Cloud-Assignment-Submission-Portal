@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="100%" height="100%" style="background:#0a0f1d; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <defs>
     <!-- Gradients -->
     <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -27,6 +28,9 @@
       <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.5" />
     </filter>
   </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="740" fill="#0a0f1d" />
 
   <!-- Title & Header -->
   <text x="600" y="48" fill="#ffffff" font-size="26" font-weight="900" text-anchor="middle" letter-spacing="1">CLOUD-BASED STUDENT ASSIGNMENT SUBMISSION &amp; FEEDBACK PORTAL</text>

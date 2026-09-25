@@ -1,9 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="100%" height="100%" style="background:#0a0f1d; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
   <defs>
     <filter id="modalShadow" x="-5%" y="-5%" width="110%" height="110%">
       <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.6" />
     </filter>
   </defs>
+
+  <!-- Background Canvas -->
+  <rect width="900" height="560" fill="#0a0f1d" />
 
   <!-- Title -->
   <text x="450" y="40" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle">BUILT-IN CLOUD PLAGIARISM &amp; PEER SIMILARITY SCANNER</text>
