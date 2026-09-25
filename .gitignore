@@ -39,9 +39,10 @@ venv/
 *.db-wal
 assignment_portal.db
 
-# Storage Buckets (Object storage simulation)
+# Storage Buckets & Media Assets
 cloud_storage_bucket/
 uploads/
+linkedin_screenshots/
 
 # IDE & Editor
 .vscode/
