@@ -2,7 +2,7 @@
   <h1>☁️ Cloud-Based Student Assignment Submission &amp; Feedback Portal 🎓</h1>
   <p><strong>An Industry-Grade Full-Stack Cloud Application Demonstrating Decoupled Object Storage, Stateless Microservices, Multi-Tenant RBAC, and Plagiarism Analytics</strong></p>
 
-  [![Frontend Status](https://img.shields.io/badge/Frontend-Vercel%20Ready-brightgreen?logo=vercel&logoColor=white)](https://cloud-assignment-portal.vercel.app)
+  [![Live Web App](https://img.shields.io/badge/Live%20Web%20App-Online%20%26%20Public-brightgreen?logo=googlechrome&logoColor=white)](https://cloud-assignment-portal-backend.onrender.com)
   [![Backend Status](https://img.shields.io/badge/Backend-Render%20Live-46E3B7?logo=render&logoColor=white)](https://cloud-assignment-portal-backend.onrender.com)
   [![FastAPI](https://img.shields.io/badge/API-FastAPI%200.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
   [![Cloud Storage](https://img.shields.io/badge/Storage-S3--Compatible%20Vault-FF9900?logo=amazons3&logoColor=white)](docs/CLOUD_CONCEPTS.md)
@@ -17,10 +17,10 @@
 
 | Component | Platform | URL / Endpoint | Health Status |
 | :--- | :--- | :--- | :--- |
-| **Frontend Web Portal** | **Vercel** | [cloud-assignment-portal.vercel.app](https://cloud-assignment-portal.vercel.app) | 🟢 Cloud Ready |
-| **Backend API Gateway** | **Render (Docker)** | [cloud-assignment-portal-backend.onrender.com](https://cloud-assignment-portal-backend.onrender.com) | 🟢 Live |
-| **Interactive API Docs**| **Swagger UI** | [cloud-assignment-portal-backend.onrender.com/docs](https://cloud-assignment-portal-backend.onrender.com/docs) | 🟢 Interactive |
-| **Cloud Health Check** | **Render Probe** | [cloud-assignment-portal-backend.onrender.com/api/health](https://cloud-assignment-portal-backend.onrender.com/api/health) | 🟢 200 OK |
+| **🌐 Live Web Application (Full-Stack UI + API)** | **Render Cloud** | [**cloud-assignment-portal-backend.onrender.com**](https://cloud-assignment-portal-backend.onrender.com) | 🟢 **100% Live & Public** |
+| **Backend API Gateway & Docs** | **Swagger UI** | [cloud-assignment-portal-backend.onrender.com/docs](https://cloud-assignment-portal-backend.onrender.com/docs) | 🟢 Interactive Docs |
+| **Cloud Health Check** | **Render Probe** | [cloud-assignment-portal-backend.onrender.com/api/health](https://cloud-assignment-portal-backend.onrender.com/api/health) | 🟢 200 OK Healthy |
+| **Optional Edge CDN Deployment** | **Vercel** | [Deploy to Vercel Guide](docs/DEPLOYMENT.md#frontend-deployment-on-vercel) | ⚡ 1-Click Import |
 | **Local Development** | **Uvicorn / Localhost**| [http://127.0.0.1:8000](http://127.0.0.1:8000) | 🟢 Active |
 
 ### 🔑 Pre-Seeded Live Demo Profiles
