@@ -33,7 +33,7 @@
   <circle cx="60" cy="30" r="6" fill="#f59e0b" />
   <circle cx="80" cy="30" r="6" fill="#10b981" />
   <rect x="360" y="16" width="480" height="28" rx="8" fill="#1e293b" />
-  <text x="600" y="35" fill="#94a3b8" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" text-anchor="middle">https://cloud-assignment-portal.vercel.app &#8226; Institutional Authentication</text>
+  <text x="600" y="35" fill="#94a3b8" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" text-anchor="middle">https://cloud-assignment-portal-backend.onrender.com &#8226; Institutional Authentication</text>
 
   <!-- Main Auth Card Container -->
   <g transform="translate(370, 90)" filter="url(#shadow)">

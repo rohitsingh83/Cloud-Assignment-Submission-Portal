@@ -127,7 +127,7 @@
   <rect x="600" y="570" width="535" height="115" rx="12" fill="#1e293b" stroke="#334155" />
   <circle cx="635" cy="605" r="18" fill="url(#amberGrad)" />
   <text x="665" y="605" fill="#f8fafc" font-size="16" font-weight="800">Decoupled Cloud Object Storage Vault</text>
-  <text x="665" y="625" fill="#fbbf24" font-size="12">AWS S3 / GCP Cloud Storage Driver Pattern</text>
+  <text x="665" y="625" fill="#fbbf24" font-size="12">Supabase S3-Compatible Cloud Storage Driver</text>
   <text x="665" y="645" fill="#94a3b8" font-size="11">Hierarchical Path: assignments/{assignment_id}/{student_id}/{file_name}</text>
   <text x="665" y="665" fill="#64748b" font-size="10">Path traversal protection with boundary assertion &#8226; 25MB max size limit</text>
 
