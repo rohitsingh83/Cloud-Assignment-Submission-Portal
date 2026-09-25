@@ -4,6 +4,9 @@ Runs through the entire real-world lifecycle from assignment creation to student
 object storage verification, faculty review, and grade retrieval.
 """
 
+import warnings
+warnings.filterwarnings("ignore")
+
 import io
 import time
 from datetime import datetime, timedelta, timezone
