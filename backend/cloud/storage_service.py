@@ -12,17 +12,15 @@ from backend.config import (
     MAX_FILE_SIZE_MB,
     ALLOWED_EXTENSIONS
 )
+from backend.cloud.supabase_service import supabase_service
 
 class CloudObjectStorageService:
     """
     Cloud Object Storage Service abstraction layer.
     
-    In local development, it mimics AWS S3 / Google Cloud Storage / Firebase Storage
-    by organizing files into hierarchical object keys within a simulated bucket:
-    assignments/{assignment_id}/{student_id}/{unique_filename}
-    
-    Can be easily swapped with boto3 (AWS S3) or google-cloud-storage (GCS)
-    without altering business logic in the controllers.
+    Supports:
+    - 'supabase': Native Supabase S3-compatible cloud object storage bucket.
+    - 'local': Local simulated cloud storage hierarchy (assignments/{aid}/{sid}/{file}).
     """
 
     def __init__(self):
@@ -79,7 +77,7 @@ class CloudObjectStorageService:
         # Cloud Object Key: assignments/<assignment_id>/<student_id>/<filename>
         storage_path = f"assignments/{assignment_id}/{student_id}/{stored_filename}"
 
-        # Write to simulated cloud storage bucket
+        # 1. Write to local storage cache
         target_file_path = self.base_dir / storage_path
         target_file_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -89,17 +87,44 @@ class CloudObjectStorageService:
         file_size_bytes = len(content)
         file_url = f"/api/submissions/download-by-path?path={storage_path}"
 
+        # 2. If Supabase Cloud Storage is configured, sync object into Supabase Bucket
+        if supabase_service.is_configured() and self.driver == "supabase":
+            try:
+                ct = file.content_type or "application/octet-stream"
+                _, supabase_url, _ = supabase_service.upload_file(
+                    object_path=storage_path,
+                    content=content,
+                    content_type=ct
+                )
+                file_url = supabase_url
+            except Exception as e:
+                # Log and fallback to local endpoint if Supabase bucket isn't provisioned yet
+                print(f"[STORAGE WARNING] Supabase upload failed, using local vault: {e}")
+
         return storage_path, file_url, file_size_bytes
 
     def get_file_path(self, storage_path: str) -> Path:
         """Resolves object key to local filesystem path with path-traversal protection."""
         resolved = (self.base_dir / storage_path).resolve()
+        
         # Security: Prevent path traversal outside storage bucket
         if not str(resolved).startswith(str(self.base_dir.resolve())):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Security violation: Invalid storage path reference"
             )
+
+        # If not present on local disk, pull from Supabase Cloud Storage if available
+        if not resolved.exists() and supabase_service.is_configured():
+            try:
+                content = supabase_service.download_file(storage_path)
+                resolved.parent.mkdir(parents=True, exist_ok=True)
+                with open(resolved, "wb") as f:
+                    f.write(content)
+                return resolved
+            except Exception:
+                pass
+
         if not resolved.exists():
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -109,6 +134,10 @@ class CloudObjectStorageService:
 
     def delete_file(self, storage_path: str) -> bool:
         """Deletes object from storage."""
+        # Delete from Supabase if configured
+        if supabase_service.is_configured() and self.driver == "supabase":
+            supabase_service.delete_file(storage_path)
+
         try:
             target = self.get_file_path(storage_path)
             if target.is_file():

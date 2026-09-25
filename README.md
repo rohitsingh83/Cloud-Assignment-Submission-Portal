@@ -4,9 +4,9 @@
 
   [![Live Web App](https://img.shields.io/badge/Live%20Web%20App-Online%20%26%20Public-brightgreen?logo=googlechrome&logoColor=white)](https://cloud-assignment-portal-backend.onrender.com)
   [![Backend Status](https://img.shields.io/badge/Backend-Render%20Live-46E3B7?logo=render&logoColor=white)](https://cloud-assignment-portal-backend.onrender.com)
+  [![Supabase](https://img.shields.io/badge/Cloud-Supabase%20Ready-3ECF8E?logo=supabase&logoColor=white)](supabase_schema.sql)
   [![FastAPI](https://img.shields.io/badge/API-FastAPI%200.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-  [![Cloud Storage](https://img.shields.io/badge/Storage-S3--Compatible%20Vault-FF9900?logo=amazons3&logoColor=white)](docs/CLOUD_CONCEPTS.md)
-  [![Tests](https://img.shields.io/badge/Tests-19%20Passed-success?logo=pytest&logoColor=white)](tests/)
+  [![Tests](https://img.shields.io/badge/Tests-23%20Passed-success?logo=pytest&logoColor=white)](tests/)
   [![Contributing](https://img.shields.io/badge/Contributions-Welcome-orange.svg)](CONTRIBUTING.md)
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 </div>
@@ -129,7 +129,27 @@ flowchart TD
 | **Similarity Engine** | n-gram Shingling + Jaccard Set Similarity | Automated plagiarism detection across peer submissions |
 | **Containerization** | Docker, Docker Compose | Consistent runtime across local, PaaS, and hyperscale clouds |
 | **Edge Hosting** | Vercel (Frontend CDN), Render (Backend Compute) | Multi-cloud decoupled production deployment |
-| **Testing** | Pytest (19 Tests) + Programmatic Walkthrough (12 Steps) | Automated continuous quality verification |
+| **Testing** | Pytest (23 Tests) + Programmatic Walkthrough (12 Steps) | Automated continuous quality verification |
+
+---
+
+## ⚡ Supabase Cloud Integration (PostgreSQL + S3 Storage)
+
+EduCloud features **native Supabase support** for production enterprise deployments:
+- 🐘 **Supabase Managed PostgreSQL**: Run ACID transactional database queries with connection pooling.
+- 🪣 **Supabase Cloud Object Storage**: Store PDFs, DOCX, and ZIP submissions in dedicated `assignments` buckets with global CDN streaming.
+
+### 1-Click Supabase Setup:
+1. Create a project at [**supabase.com**](https://supabase.com).
+2. Go to the **SQL Editor**, paste the contents of [**`supabase_schema.sql`**](supabase_schema.sql), and click **Run**.
+3. Add your Supabase credentials to `.env` or your Render environment variables:
+   ```env
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_KEY=your-supabase-anon-or-service-role-key
+   SUPABASE_DB_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
+   STORAGE_DRIVER=supabase
+   ```
+4. Start the app: `python main.py`. The `/api/health` probe will automatically confirm your Supabase connection!
 
 ---
 

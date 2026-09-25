@@ -14,7 +14,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from backend.config import PROJECT_NAME, VERSION
+from backend.config import PROJECT_NAME, VERSION, STORAGE_DRIVER
 from backend.database import init_db
 from backend.cloud.database_service import seed_initial_demo_data
 from backend.routes.auth_routes import router as auth_router
@@ -56,6 +56,9 @@ app.include_router(grading_router)
 app.include_router(dashboard_router)
 app.include_router(similarity_router)
 
+from backend.database import init_db, IS_POSTGRES
+from backend.cloud.supabase_service import supabase_service
+
 # Health Check & Cloud Monitoring Endpoint
 @app.get("/api/health", tags=["Cloud Health"])
 def health_check():
@@ -64,7 +67,10 @@ def health_check():
         "status": "healthy",
         "service": PROJECT_NAME,
         "version": VERSION,
-        "environment": "cloud-ready"
+        "environment": "cloud-ready",
+        "database": "supabase-postgresql" if IS_POSTGRES else "sqlite-wal",
+        "storage_driver": STORAGE_DRIVER,
+        "supabase": supabase_service.health_check()
     }
 
 # Mount Frontend static files

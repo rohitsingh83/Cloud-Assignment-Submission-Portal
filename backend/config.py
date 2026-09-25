@@ -20,11 +20,18 @@ SECRET_KEY = os.getenv("SECRET_KEY", "cloud-assignment-portal-default-dev-secret
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))
 
-# Database
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/assignment_portal.db")
+# Database & Cloud Integration
+SUPABASE_DB_URL = os.getenv("SUPABASE_DB_URL", "")
+DATABASE_URL = SUPABASE_DB_URL or os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/assignment_portal.db")
 
-# Cloud Object Storage Driver Simulation
-STORAGE_DRIVER = os.getenv("STORAGE_DRIVER", "local")  # 'local', 's3', 'firebase'
+# Supabase Cloud Integration
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")  # anon or service_role key
+SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "assignments")
+
+# Cloud Object Storage Driver ('supabase', 's3', 'local')
+_default_driver = "supabase" if (SUPABASE_URL and SUPABASE_KEY) else "local"
+STORAGE_DRIVER = os.getenv("STORAGE_DRIVER", _default_driver).lower()
 STORAGE_BUCKET_NAME = os.getenv("STORAGE_BUCKET_NAME", "cloud-assignment-portal-bucket")
 LOCAL_STORAGE_DIR = os.getenv("LOCAL_STORAGE_DIR", str(BASE_DIR / "cloud_storage_bucket"))
 
