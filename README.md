@@ -87,31 +87,38 @@ flowchart TD
 
 <div align="center">
   <h3>🏗️ Multi-Tenant Cloud Architecture Diagram</h3>
-  <img src="screenshots/architecture_diagram.svg" alt="Cloud Architecture Diagram" width="100%"/>
+  <a href="screenshots/architecture_diagram.svg"><img src="screenshots/architecture_diagram.png" alt="Cloud Architecture Diagram" width="100%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
   
   <h3>📊 Faculty Grading Desk & Student Assignment Portal</h3>
-  <img src="screenshots/dashboard_preview.svg" alt="Dashboard Preview" width="100%"/>
+  <a href="screenshots/dashboard_preview.svg"><img src="screenshots/dashboard_preview.png" alt="Dashboard Preview" width="100%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
 
   <h3>🔐 Institutional Authentication & 1-Click Demo Profiles</h3>
-  <img src="screenshots/login_portal_preview.svg" alt="Login Portal Preview" width="100%"/>
+  <a href="screenshots/login_portal_preview.svg"><img src="screenshots/login_portal_preview.png" alt="Login Portal Preview" width="85%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
 
   <h3>📝 Faculty Rubric Grading, Qualitative Feedback & Presets</h3>
-  <img src="screenshots/grading_evaluation_preview.svg" alt="Grading Evaluation Preview" width="100%"/>
+  <a href="screenshots/grading_evaluation_preview.svg"><img src="screenshots/grading_evaluation_preview.png" alt="Grading Evaluation Preview" width="85%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
   
   <h3>⚡ End-to-End Assignment Submission & Evaluation Pipeline</h3>
-  <img src="screenshots/submission_flow.svg" alt="Submission Flow" width="100%"/>
+  <a href="screenshots/submission_flow.svg"><img src="screenshots/submission_flow.png" alt="Submission Flow" width="100%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
   
   <h3>✨ Built-In Cloud Plagiarism & Peer Similarity Scanner</h3>
-  <img src="screenshots/plagiarism_scanner_preview.svg" alt="Plagiarism Scanner" width="100%"/>
+  <a href="screenshots/plagiarism_scanner_preview.svg"><img src="screenshots/plagiarism_scanner_preview.png" alt="Plagiarism Scanner" width="85%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
   <br/><br/>
 
   <h3>📄 In-Browser Document Preview with Cloud Asset Streaming</h3>
-  <img src="screenshots/file_preview_modal.svg" alt="File Preview Modal" width="100%"/>
+  <a href="screenshots/file_preview_modal.svg"><img src="screenshots/file_preview_modal.png" alt="File Preview Modal" width="85%"/></a>
+  <br/><sub><em>Click image to inspect full vector SVG</em></sub>
 </div>
 
 
