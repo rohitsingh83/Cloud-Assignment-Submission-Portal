@@ -1,8 +1,6 @@
 {
-  "version": 2,
-  "public": true,
-  "cleanUrls": true,
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://cloud-assignment-portal-backend.onrender.com/api/$1" },
     { "source": "/(.*)", "destination": "/frontend/$1" }
   ]
 }
