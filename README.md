@@ -153,9 +153,9 @@ EduCloud features **native Supabase support** for production enterprise deployme
 
 ---
 
-## 🧪 Automated Test Suite (19 / 19 Tests Passed)
+## 🧪 Automated Test Suite (23 / 23 Tests Passed)
 
-The repository includes a comprehensive automated test suite covering all functional, security, and edge-case requirements:
+The repository includes a comprehensive automated test suite covering all functional, security, Supabase cloud drivers, and edge-case requirements:
 
 ```bash
 # Execute the test suite
@@ -166,29 +166,33 @@ pytest -v
 ============================= test session starts =============================
 platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
 rootdir: Cloud-Assignment-Submission-Portal
-collected 19 items
+collected 23 items
 
-tests/test_portal.py::test_01_student_registration PASSED                [  5%]
-tests/test_portal.py::test_02_teacher_login PASSED                       [ 10%]
-tests/test_portal.py::test_03_invalid_login PASSED                       [ 15%]
-tests/test_portal.py::test_04_student_dashboard_authorization PASSED     [ 21%]
-tests/test_portal.py::test_05_teacher_dashboard_rbac PASSED              [ 26%]
-tests/test_portal.py::test_06_teacher_creates_assignment PASSED          [ 31%]
-tests/test_portal.py::test_07_student_views_assignments PASSED           [ 36%]
-tests/test_portal.py::test_08_valid_submission_on_time PASSED            [ 42%]
-tests/test_portal.py::test_09_invalid_extension_rejected PASSED          [ 47%]
-tests/test_portal.py::test_10_late_submission_detected PASSED            [ 52%]
-tests/test_portal.py::test_11_resubmission_replaces_old_file PASSED      [ 57%]
-tests/test_portal.py::test_12_rbac_student_cross_view_blocked PASSED     [ 63%]
-tests/test_portal.py::test_13_teacher_grades_submission PASSED           [ 68%]
-tests/test_portal.py::test_14_marks_above_maximum_rejected PASSED        [ 73%]
-tests/test_portal.py::test_15_student_views_feedback PASSED              [ 78%]
-tests/test_portal.py::test_16_authorized_file_download PASSED            [ 84%]
-tests/test_portal.py::test_17_preview_submission_file PASSED             [ 89%]
-tests/test_portal.py::test_18_similarity_check_endpoint PASSED           [ 94%]
-tests/test_portal.py::test_19_export_grades_csv PASSED                   [100%]
+tests/test_portal.py::test_01_student_registration PASSED                [  4%]
+tests/test_portal.py::test_02_teacher_login PASSED                       [  8%]
+tests/test_portal.py::test_03_invalid_login PASSED                       [ 13%]
+tests/test_portal.py::test_04_student_dashboard_authorization PASSED     [ 17%]
+tests/test_portal.py::test_05_teacher_dashboard_rbac PASSED              [ 21%]
+tests/test_portal.py::test_06_teacher_creates_assignment PASSED          [ 26%]
+tests/test_portal.py::test_07_student_views_assignments PASSED           [ 30%]
+tests/test_portal.py::test_08_valid_submission_on_time PASSED            [ 34%]
+tests/test_portal.py::test_09_invalid_extension_rejected PASSED          [ 39%]
+tests/test_portal.py::test_10_late_submission_detected PASSED            [ 43%]
+tests/test_portal.py::test_11_resubmission_replaces_old_file PASSED      [ 47%]
+tests/test_portal.py::test_12_rbac_student_cross_view_blocked PASSED     [ 52%]
+tests/test_portal.py::test_13_teacher_grades_submission PASSED           [ 56%]
+tests/test_portal.py::test_14_marks_above_maximum_rejected PASSED        [ 60%]
+tests/test_portal.py::test_15_student_views_feedback PASSED              [ 65%]
+tests/test_portal.py::test_16_authorized_file_download PASSED            [ 69%]
+tests/test_portal.py::test_17_preview_submission_file PASSED             [ 73%]
+tests/test_portal.py::test_18_similarity_check_endpoint PASSED           [ 78%]
+tests/test_portal.py::test_19_export_grades_csv PASSED                   [ 82%]
+tests/test_supabase.py::test_supabase_health_in_api_probe PASSED        [ 86%]
+tests/test_supabase.py::test_supabase_service_initialization PASSED      [ 91%]
+tests/test_supabase.py::test_supabase_public_url_generation PASSED       [ 95%]
+tests/test_supabase.py::test_postgres_cursor_placeholder_adaptation PASSED [100%]
 
-======================== 19 passed, 1 warning in 3.46s ========================
+============================= 23 passed in 3.65s ==============================
 ```
 
 ---
