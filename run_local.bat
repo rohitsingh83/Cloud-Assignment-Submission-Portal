@@ -13,5 +13,5 @@ if not exist "venv" (
 )
 
 echo Starting application server on http://127.0.0.1:8000
-python start_server.py
+python main.py
 pause

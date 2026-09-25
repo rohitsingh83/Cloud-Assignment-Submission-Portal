@@ -180,7 +180,7 @@ To run the application locally on any Windows, macOS, or Linux machine:
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-python start_server.py
+python main.py
 ```
 
 The portal will be instantly live at **`http://127.0.0.1:8000`**.

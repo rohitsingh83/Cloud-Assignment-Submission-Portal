@@ -12,7 +12,7 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
     container_name: cloud-assignment-portal-backend
     ports:

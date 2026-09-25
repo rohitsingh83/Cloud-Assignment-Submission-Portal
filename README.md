@@ -198,7 +198,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # 4. Start the application
-python start_server.py
+python main.py
 ```
 Open **`http://127.0.0.1:8000`** in your browser!
 

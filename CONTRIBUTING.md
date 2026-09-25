@@ -32,7 +32,7 @@ Default settings run with local SQLite and local storage drivers—zero external
 ### 3. Seed Demo Data & Launch
 ```bash
 python seed_full_demo.py
-python start_server.py
+python main.py
 ```
 Visit `http://localhost:8000` to interact with the application.
 
