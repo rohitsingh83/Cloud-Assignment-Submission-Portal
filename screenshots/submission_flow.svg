@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" width="100%" height="100%" style="background:#0a0f1d; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="550" y="45" fill="#ffffff" font-size="22" font-weight="900" text-anchor="middle">END-TO-END CLOUD ASSIGNMENT LIFECYCLE &amp; EVALUATION PIPELINE</text>
+  <text x="550" y="70" fill="#94a3b8" font-size="13" text-anchor="middle">Asynchronous Event Flow from Assignment Publication to Multi-Tenant Storage &amp; Grading</text>
+
+  <!-- Steps -->
+  <!-- Step 1 -->
+  <rect x="50" y="110" width="180" height="260" rx="12" fill="#1e293b" stroke="#334155" />
+  <circle cx="80" cy="140" r="16" fill="#4f46e5" />
+  <text x="80" y="146" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">1</text>
+  <text x="110" y="145" fill="#f8fafc" font-size="13" font-weight="700">Publish</text>
+  <text x="65" y="180" fill="#94a3b8" font-size="11">Instructor creates task</text>
+  <text x="65" y="200" fill="#cbd5e1" font-size="11">• Max marks defined</text>
+  <text x="65" y="220" fill="#cbd5e1" font-size="11">• UTC deadline set</text>
+  <text x="65" y="240" fill="#cbd5e1" font-size="11">• Allowed MIME types</text>
+  <text x="65" y="260" fill="#cbd5e1" font-size="11">• 25MB max size cap</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 230 240 L 270 240" stroke="#4f46e5" stroke-width="2" />
+  <polygon points="270,240 262,235 262,245" fill="#4f46e5" />
+
+  <!-- Step 2 -->
+  <rect x="270" y="110" width="180" height="260" rx="12" fill="#1e293b" stroke="#334155" />
+  <circle cx="300" cy="140" r="16" fill="#0284c7" />
+  <text x="300" y="146" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">2</text>
+  <text x="330" y="145" fill="#f8fafc" font-size="13" font-weight="700">Submit File</text>
+  <text x="285" y="180" fill="#94a3b8" font-size="11">Student uploads solution</text>
+  <text x="285" y="200" fill="#cbd5e1" font-size="11">• Drag-and-drop SPA</text>
+  <text x="285" y="220" fill="#cbd5e1" font-size="11">• 1-click test PDF</text>
+  <text x="285" y="240" fill="#cbd5e1" font-size="11">• Token JWT injected</text>
+  <text x="285" y="260" fill="#cbd5e1" font-size="11">• Multipart chunk stream</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 450 240 L 490 240" stroke="#0284c7" stroke-width="2" />
+  <polygon points="490,240 482,235 482,245" fill="#0284c7" />
+
+  <!-- Step 3 -->
+  <rect x="490" y="110" width="180" height="260" rx="12" fill="#1e293b" stroke="#334155" />
+  <circle cx="520" cy="140" r="16" fill="#059669" />
+  <text x="520" y="146" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">3</text>
+  <text x="550" y="145" fill="#f8fafc" font-size="13" font-weight="700">Verification</text>
+  <text x="505" y="180" fill="#94a3b8" font-size="11">FastAPI gateway checks</text>
+  <text x="505" y="200" fill="#cbd5e1" font-size="11">• Server UTC deadline</text>
+  <text x="505" y="220" fill="#10b981" font-size="11">• Tag: ON-TIME</text>
+  <text x="505" y="240" fill="#f43f5e" font-size="11">• Tag: LATE (past due)</text>
+  <text x="505" y="260" fill="#cbd5e1" font-size="11">• Path traversal guard</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 670 240 L 710 240" stroke="#059669" stroke-width="2" />
+  <polygon points="710,240 702,235 702,245" fill="#059669" />
+
+  <!-- Step 4 -->
+  <rect x="710" y="110" width="180" height="260" rx="12" fill="#1e293b" stroke="#334155" />
+  <circle cx="740" cy="140" r="16" fill="#7c3aed" />
+  <text x="740" y="146" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">4</text>
+  <text x="770" y="145" fill="#f8fafc" font-size="13" font-weight="700">Storage &amp; Scan</text>
+  <text x="725" y="180" fill="#94a3b8" font-size="11">Cloud Object Storage</text>
+  <text x="725" y="200" fill="#cbd5e1" font-size="11">• Isolated partition key</text>
+  <text x="725" y="220" fill="#cbd5e1" font-size="11">• n-gram tokenization</text>
+  <text x="725" y="240" fill="#cbd5e1" font-size="11">• Jaccard peer match</text>
+  <text x="725" y="260" fill="#cbd5e1" font-size="11">• Plagiarism risk score</text>
+
+  <!-- Arrow 4 -> 5 -->
+  <path d="M 890 240 L 930 240" stroke="#7c3aed" stroke-width="2" />
+  <polygon points="930,240 922,235 922,245" fill="#7c3aed" />
+
+  <!-- Step 5 -->
+  <rect x="930" y="110" width="140" height="260" rx="12" fill="#1e293b" stroke="#334155" />
+  <circle cx="955" cy="140" r="16" fill="#d97706" />
+  <text x="955" y="146" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">5</text>
+  <text x="980" y="145" fill="#f8fafc" font-size="13" font-weight="700">Feedback</text>
+  <text x="945" y="180" fill="#94a3b8" font-size="11">• In-browser preview</text>
+  <text x="945" y="205" fill="#94a3b8" font-size="11">• Marks awarded</text>
+  <text x="945" y="230" fill="#94a3b8" font-size="11">• Feedback loop</text>
+  <text x="945" y="255" fill="#94a3b8" font-size="11">• CSV grade export</text>
+
+  <!-- Footer Banner -->
+  <rect x="50" y="400" width="1020" height="70" rx="12" fill="#131b2e" stroke="#1e293b" />
+  <text x="80" y="430" fill="#38bdf8" font-size="13" font-weight="800">⚡ Decoupled Cloud Architecture Guarantees:</text>
+  <text x="80" y="452" fill="#94a3b8" font-size="11">Zero server storage exhaustion &bull; S3-compatible path isolation &bull; NIST PBKDF2 Password Hashing &bull; Real-time UTC Deadline Clock</text>
+</svg>

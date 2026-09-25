@@ -1,0 +1,51 @@
+# ============================================================
+# Docker Compose — Cloud-Based Student Assignment Portal
+# Decoupled Multi-Container Cloud Architecture (Frontend + Backend)
+# ============================================================
+# Usage:
+#   docker-compose up --build        (start both services)
+#   docker-compose down              (stop everything)
+# ============================================================
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cloud-assignment-portal-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - ENVIRONMENT=production
+      - SECRET_KEY=${SECRET_KEY:-cloud-assignment-portal-container-secret-key-2026}
+      - STORAGE_PATH=/app/cloud_storage_bucket
+      - ALLOWED_ORIGINS=*
+      - MAX_FILE_SIZE_MB=25
+    volumes:
+      - backend-storage:/app/cloud_storage_bucket
+      - backend-db:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cloud-assignment-portal-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend-storage:
+  backend-db:

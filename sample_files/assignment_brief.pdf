@@ -1,0 +1,51 @@
+%PDF-1.4
+1 0 obj
+<< /Title (CS-401 Cloud Assignment Brief)
+   /Author (Prof. Sarah Johnson) >>
+endobj
+2 0 obj
+<< /Type /Catalog
+   /Pages 3 0 R >>
+endobj
+3 0 obj
+<< /Type /Pages
+   /Kids [4 0 R]
+   /Count 1 >>
+endobj
+4 0 obj
+<< /Type /Page
+   /Parent 3 0 R
+   /MediaBox [0 0 612 792]
+   /Contents 5 0 R
+   /Resources << /Font << /F1 6 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 120 >>
+stream
+BT
+/F1 18 Tf
+50 720 Td
+(CS-401 Cloud Assignment: Distributed Object Storage) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Font
+   /Subtype /Type1
+   /BaseFont /Helvetica >>
+endobj
+xref
+0 7
+0000000000 65535 f
+0000000009 00000 n
+0000000098 00000 n
+0000000151 00000 n
+0000000214 00000 n
+0000000344 00000 n
+0000000516 00000 n
+trailer
+<< /Size 7
+   /Root 2 0 R >>
+startxref
+598
+%%EOF

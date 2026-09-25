@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduCloud - Cloud-Based Assignment Submission & Feedback Portal</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js for Cloud Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- TOP CLOUD NAVBAR -->
+  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="renderView()">
+        <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl shadow-md text-white">
+          <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-lg tracking-tight block leading-tight">EduCloud</span>
+          <span class="text-[11px] text-indigo-300 font-medium">Assignment & Feedback Portal</span>
+        </div>
+      </div>
+
+      <!-- Cloud Status Badge & User Controls -->
+      <div class="flex items-center space-x-4">
+        <div class="hidden sm:flex items-center space-x-2 bg-indigo-950/70 px-3 py-1.5 rounded-full border border-indigo-700/60 text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-emerald-300 font-medium">Cloud Storage Active</span>
+        </div>
+
+        <div id="authNavProfile" class="hidden items-center space-x-3">
+          <div class="text-right hidden sm:block">
+            <div id="navUserName" class="text-sm font-bold text-white">User</div>
+            <div id="navUserRole" class="text-xs text-indigo-300 capitalize font-medium">Role</div>
+          </div>
+          <button id="logoutBtn" onclick="logout()" class="bg-rose-500/90 hover:bg-rose-600 text-white text-xs px-3.5 py-2 rounded-xl transition font-bold shadow-sm flex items-center">
+            <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer" class="fixed top-20 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- 1. AUTH SCREEN (Logged out) -->
+    <div id="authSection" class="max-w-md mx-auto my-6">
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden">
+        <div class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-indigo-950 p-8 text-white text-center relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+          <i class="fa-solid fa-graduation-cap text-5xl mb-3 text-indigo-300"></i>
+          <h2 class="text-2xl font-black tracking-tight">Institutional Cloud Portal</h2>
+          <p class="text-xs text-indigo-200 mt-1 font-medium">Sign in to submit, grade, or review coursework</p>
+        </div>
+
+        <!-- Auth Tabs -->
+        <div class="flex border-b border-slate-200">
+          <button id="loginTabBtn" onclick="switchAuthTab('login')" class="flex-1 py-3.5 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition">
+            Sign In
+          </button>
+          <button id="registerTabBtn" onclick="switchAuthTab('register')" class="flex-1 py-3.5 text-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition">
+            Register Account
+          </button>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <!-- LOGIN FORM -->
+          <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Email Address</label>
+              <input id="loginEmail" type="email" required placeholder="alex@cloudportal.edu" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Password</label>
+              <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-md shadow-indigo-600/20 flex items-center justify-center">
+              <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i> Authenticate & Enter
+            </button>
+          </form>
+
+          <!-- REGISTER FORM -->
+          <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Full Name</label>
+              <input id="regName" type="text" required placeholder="John Doe" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Email Address</label>
+              <input id="regEmail" type="email" required placeholder="john@cloudportal.edu" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Password</label>
+              <input id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Role</label>
+              <select id="regRole" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white">
+                <option value="student">Student (Submit Assignments)</option>
+                <option value="teacher">Teacher (Create & Grade)</option>
+              </select>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-md shadow-indigo-600/20 flex items-center justify-center">
+              <i class="fa-solid fa-user-plus mr-2"></i> Create Account
+            </button>
+          </form>
+
+          <!-- QUICK DEMO LOGINS -->
+          <div class="mt-6 pt-5 border-t border-slate-200">
+            <p class="text-xs text-slate-500 text-center font-bold uppercase tracking-wider mb-3">1-Click Demo Profiles:</p>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" onclick="fillDemoCredentials('teacher@cloudportal.edu', 'TeacherPass123!')" class="text-xs bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 text-indigo-900 font-semibold p-2.5 rounded-xl text-center transition flex items-center justify-center">
+                <i class="fa-solid fa-chalkboard-user text-indigo-600 mr-1.5"></i> Faculty Demo
+              </button>
+              <button type="button" onclick="fillDemoCredentials('student@cloudportal.edu', 'StudentPass123!')" class="text-xs bg-emerald-50/70 hover:bg-emerald-100 border border-emerald-200 text-emerald-900 font-semibold p-2.5 rounded-xl text-center transition flex items-center justify-center">
+                <i class="fa-solid fa-user-graduate text-emerald-600 mr-1.5"></i> Student Demo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. STUDENT PORTAL -->
+    <div id="studentSection" class="hidden space-y-6">
+      <!-- Welcome Header -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="text-xs font-extrabold text-indigo-600 tracking-wider uppercase">Student Portal</span>
+          <h1 class="text-2xl font-black text-slate-900">Welcome, <span id="studentDisplayName">Student</span>!</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Track your enrolled coursework, submit solutions, and review faculty evaluations.</p>
+        </div>
+        <div class="flex items-center space-x-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-2 rounded-xl font-semibold">
+          <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+          <span>Authenticated Session Active</span>
+        </div>
+      </div>
+
+      <!-- Student Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-slate-400 text-xs font-bold uppercase">Total Tasks</div>
+          <div id="statStudentTotal" class="text-2xl font-black text-slate-800 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-amber-500 text-xs font-bold uppercase">Pending</div>
+          <div id="statStudentPending" class="text-2xl font-black text-amber-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-emerald-500 text-xs font-bold uppercase">Submitted</div>
+          <div id="statStudentSubmitted" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-rose-500 text-xs font-bold uppercase">Late Submissions</div>
+          <div id="statStudentLate" class="text-2xl font-black text-rose-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-indigo-500 text-xs font-bold uppercase">Graded & Reviewed</div>
+          <div id="statStudentGraded" class="text-2xl font-black text-indigo-600 mt-1">0</div>
+        </div>
+      </div>
+
+      <!-- Student View Tabs & Search -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-2">
+        <div class="flex space-x-6">
+          <button id="studentTabAssignBtn" onclick="switchStudentTab('assignments')" class="pb-2 text-sm font-extrabold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center">
+            <i class="fa-solid fa-list-check mr-2"></i> Course Assignments
+          </button>
+          <button id="studentTabSubsBtn" onclick="switchStudentTab('submissions')" class="pb-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition flex items-center">
+            <i class="fa-solid fa-clock-rotate-left mr-2"></i> My Submissions & Feedback
+          </button>
+        </div>
+
+        <div class="relative w-full sm:w-64">
+          <input type="text" id="studentSearchInput" oninput="filterStudentAssignments()" placeholder="Search assignments..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+        </div>
+      </div>
+
+      <!-- Student Tab: Assignments List -->
+      <div id="studentAssignmentsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+      <!-- Student Tab: My Submissions List -->
+      <div id="studentSubmissionsList" class="hidden space-y-4"></div>
+    </div>
+
+    <!-- 3. TEACHER PORTAL -->
+    <div id="teacherSection" class="hidden space-y-6">
+      <!-- Welcome Header -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="text-xs font-extrabold text-indigo-600 tracking-wider uppercase">Faculty Grading Desk</span>
+          <h1 class="text-2xl font-black text-slate-900">Instructor: <span id="teacherDisplayName">Faculty</span></h1>
+          <p class="text-xs text-slate-500 mt-0.5">Manage assignments, review student submissions from Cloud Storage, and post grades.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="openCreateAssignmentModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center">
+            <i class="fa-solid fa-plus mr-1.5"></i> Publish Assignment
+          </button>
+        </div>
+      </div>
+
+      <!-- Teacher Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-slate-400 text-xs font-bold uppercase">Assignments</div>
+          <div id="statTeacherTotalAssign" class="text-2xl font-black text-slate-800 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-indigo-500 text-xs font-bold uppercase">Submissions</div>
+          <div id="statTeacherTotalSubs" class="text-2xl font-black text-indigo-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-amber-500 text-xs font-bold uppercase">Pending Review</div>
+          <div id="statTeacherPending" class="text-2xl font-black text-amber-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-rose-500 text-xs font-bold uppercase">Late Submissions</div>
+          <div id="statTeacherLate" class="text-2xl font-black text-rose-600 mt-1">0</div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="text-emerald-500 text-xs font-bold uppercase">Graded</div>
+          <div id="statTeacherGraded" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+        </div>
+      </div>
+
+      <!-- Submissions Table Filter & Export Toolbar -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full md:w-auto">
+          <label class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap">Filter Assignment:</label>
+          <select id="teacherAssignmentFilter" onchange="filterTeacherSubmissions()" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none w-full sm:w-64 bg-white font-medium">
+            <option value="ALL">All Assignments</option>
+          </select>
+        </div>
+
+        <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
+          <button onclick="exportCurrentGradesCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl border border-slate-300 transition font-bold flex items-center">
+            <i class="fa-solid fa-file-csv text-emerald-600 mr-1.5"></i> Export Grades (CSV)
+          </button>
+        </div>
+      </div>
+
+      <!-- Submissions Table -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wider font-extrabold">
+                <th class="py-3.5 px-4">Student</th>
+                <th class="py-3.5 px-4">Assignment</th>
+                <th class="py-3.5 px-4">Submitted At</th>
+                <th class="py-3.5 px-4">Status</th>
+                <th class="py-3.5 px-4">Marks</th>
+                <th class="py-3.5 px-4">Document</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="teacherSubmissionsTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL: SUBMIT ASSIGNMENT (Student) -->
+  <div id="submitModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-200">
+      <button onclick="closeSubmitModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-xl font-black text-slate-900 mb-1 flex items-center">
+        <i class="fa-solid fa-cloud-arrow-up text-indigo-600 mr-2.5"></i> Submit Assignment
+      </h3>
+      <p id="submitModalAssignmentTitle" class="text-xs text-slate-500 mb-5 font-semibold">Assignment Name</p>
+
+      <form id="submissionUploadForm" onsubmit="handleUploadSubmission(event)" class="space-y-4">
+        <input type="hidden" id="submitModalAssignmentId">
+        
+        <!-- Drag & Drop Zone -->
+        <div id="dropZone" class="border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer transition bg-indigo-50/40">
+          <i class="fa-solid fa-file-arrow-up text-4xl text-indigo-600 mb-2"></i>
+          <p class="text-sm font-bold text-slate-800">Click to browse or drop solution file here</p>
+          <p id="submitModalAllowedTypes" class="text-xs text-slate-500 mt-1 font-medium">Allowed formats: PDF, DOCX, ZIP (Max 25MB)</p>
+          <input type="file" id="submitFileInput" class="hidden" onchange="handleFileSelected(this)">
+          <div id="selectedFileName" class="mt-3 text-xs font-bold text-indigo-700 bg-white py-1 px-3 rounded-lg border border-indigo-200 inline-block hidden"></div>
+        </div>
+
+        <!-- Quick Sample File Helper Button -->
+        <div class="flex justify-between items-center bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs">
+          <span class="text-slate-600 font-medium">Testing without a local PDF?</span>
+          <button type="button" onclick="attachSampleFile()" class="text-xs text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 font-bold px-2.5 py-1 rounded-lg transition">
+            Use Sample PDF
+          </button>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-900 leading-relaxed font-medium">
+          <i class="fa-solid fa-clock mr-1 text-amber-600"></i>
+          <strong>Deadline Check:</strong> Submissions received past deadline are automatically tagged <strong>LATE</strong> by the cloud server's UTC clock.
+        </div>
+
+        <div class="flex justify-end space-x-3 pt-2">
+          <button type="button" onclick="closeSubmitModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
+            Cancel
+          </button>
+          <button type="submit" id="uploadSubmitBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20 flex items-center">
+            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Upload to Cloud Storage
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE ASSIGNMENT (Teacher) -->
+  <div id="createAssignmentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-200">
+      <button onclick="closeCreateAssignmentModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center">
+        <i class="fa-solid fa-file-circle-plus text-indigo-600 mr-2.5"></i> Publish New Assignment
+      </h3>
+
+      <form onsubmit="handleCreateAssignment(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Select Course</label>
+          <select id="createAssignCourse" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white font-medium"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Title</label>
+          <input id="createAssignTitle" type="text" required placeholder="e.g. Distributed Database Replication Lab" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Guidelines & Problem Statement</label>
+          <textarea id="createAssignDesc" rows="3" placeholder="Provide assignment instructions, architecture expectations, and grading criteria..." class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Deadline</label>
+            <input id="createAssignDeadline" type="datetime-local" required class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Max Marks</label>
+            <input id="createAssignMarks" type="number" min="1" max="1000" value="100" required class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Allowed File Types</label>
+            <input id="createAssignTypes" type="text" value="pdf,docx,zip" required class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Max Size (MB)</label>
+            <input id="createAssignSize" type="number" min="1" max="100" value="25" required class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-3 pt-3">
+          <button type="button" onclick="closeCreateAssignmentModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
+            Publish Assignment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GRADE & FEEDBACK (Teacher) -->
+  <div id="gradeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-200">
+      <button onclick="closeGradeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-xl font-black text-slate-900 mb-1 flex items-center">
+        <i class="fa-solid fa-marker text-indigo-600 mr-2.5"></i> Review & Grade
+      </h3>
+      <div id="gradeModalStudentMeta" class="text-xs text-slate-500 mb-5 font-semibold">Student: - | Assignment: -</div>
+
+      <form onsubmit="handleSaveGrade(event)" class="space-y-4">
+        <input type="hidden" id="gradeModalSubmissionId">
+        
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">
+            Award Marks (Max: <span id="gradeModalMaxMarks">100</span>)
+          </label>
+          <input id="gradeModalMarksInput" type="number" step="0.5" min="0" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Qualitative Feedback</label>
+          <textarea id="gradeModalFeedbackInput" rows="4" placeholder="Detail student strengths, architectural oversights, and actionable recommendations..." class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-3 pt-2">
+          <button type="button" onclick="closeGradeModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
+            Save Evaluation
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: IN-BROWSER FILE PREVIEW -->
+  <div id="previewModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full h-[85vh] p-6 shadow-2xl border border-slate-200 flex flex-col relative animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex justify-between items-center pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-file-pdf text-indigo-600 text-xl"></i>
+          <div>
+            <h4 id="previewModalTitle" class="font-extrabold text-sm text-slate-900">Document Preview</h4>
+            <span id="previewModalSubtitle" class="text-xs text-slate-500">Cloud Storage Asset</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button id="previewModalDownloadBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs px-3 py-1.5 rounded-xl font-bold transition">
+            <i class="fa-solid fa-download mr-1"></i> Download
+          </button>
+          <button onclick="closePreviewModal()" class="text-slate-400 hover:text-slate-700 p-1">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+      </div>
+      <div class="flex-grow my-4 bg-slate-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+        <iframe id="previewIframe" class="w-full h-full border-0"></iframe>
+        <div id="previewFallback" class="hidden text-center p-8 space-y-3">
+          <i class="fa-solid fa-file-lines text-5xl text-slate-400"></i>
+          <p class="text-sm font-bold text-slate-700">Preview not available for this binary format</p>
+          <p class="text-xs text-slate-500">Please download the file to inspect on your machine.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PLAGIARISM & SIMILARITY SCANNER -->
+  <div id="similarityModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-200">
+      <button onclick="closeSimilarityModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="text-xl font-black text-slate-900 mb-1 flex items-center">
+        <i class="fa-solid fa-wand-magic-sparkles text-indigo-600 mr-2.5"></i> Plagiarism & Similarity Scanner
+      </h3>
+      <p id="similarityModalMeta" class="text-xs text-slate-500 mb-4 font-semibold">Comparing against peer submissions</p>
+
+      <div id="similarityLoading" class="py-12 text-center text-slate-500">
+        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-600 mb-2"></i>
+        <p class="text-xs font-semibold">Executing cloud n-gram token similarity algorithm...</p>
+      </div>
+
+      <div id="similarityContent" class="hidden space-y-4">
+        <!-- Score Card -->
+        <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold text-slate-500 uppercase">Max Similarity Score</span>
+            <div id="similarityScoreText" class="text-3xl font-black text-emerald-600 mt-0.5">0.0%</div>
+          </div>
+          <span id="similarityRiskBadge" class="badge-status badge-submitted text-xs">LOW RISK</span>
+        </div>
+
+        <p id="similarityVerdict" class="text-xs text-slate-600 italic bg-white p-3 rounded-xl border border-slate-200"></p>
+
+        <!-- Top Matches -->
+        <div>
+          <h5 class="text-xs font-extrabold uppercase text-slate-500 tracking-wider mb-2">Closest Peer Submissions:</h5>
+          <div id="similarityMatchesList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-4 border-t border-slate-100 mt-4">
+        <button onclick="closeSimilarityModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+          Close Scanner
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div>
+        <strong>EduCloud Platform</strong> &copy; 2026 &bull; Cloud Computing Coursework Capstone
+      </div>
+      <div class="flex items-center space-x-3">
+        <span>FastAPI + SQLite/PostgreSQL + Decoupled Cloud Storage</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

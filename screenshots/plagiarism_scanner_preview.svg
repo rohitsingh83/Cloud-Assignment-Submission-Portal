@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="100%" height="100%" style="background:#0a0f1d; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <filter id="modalShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="40" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle">BUILT-IN CLOUD PLAGIARISM &amp; PEER SIMILARITY SCANNER</text>
+  <text x="450" y="65" fill="#94a3b8" font-size="12" text-anchor="middle">Cross-Submission Token Analysis using n-gram Shingling and Jaccard Set Similarity</text>
+
+  <!-- Modal Container -->
+  <rect x="150" y="95" width="600" height="430" rx="20" fill="#1e293b" stroke="#334155" stroke-width="2" filter="url(#modalShadow)" />
+
+  <!-- Modal Header -->
+  <circle cx="185" cy="135" r="14" fill="#a855f7" />
+  <text x="185" y="141" fill="#ffffff" font-size="14" font-weight="900" text-anchor="middle">✨</text>
+  <text x="210" y="137" fill="#ffffff" font-size="16" font-weight="900">Plagiarism &amp; Similarity Scanner</text>
+  <text x="210" y="152" fill="#94a3b8" font-size="11">Comparing against 4 peer submissions for Assignment #CS-401</text>
+  <circle cx="715" cy="135" r="10" fill="#334155" />
+  <text x="715" y="139" fill="#94a3b8" font-size="11" font-weight="800" text-anchor="middle">✕</text>
+
+  <!-- Score Card -->
+  <rect x="180" y="175" width="540" height="85" rx="14" fill="#0f172a" stroke="#334155" />
+  <text x="205" y="202" fill="#94a3b8" font-size="11" font-weight="800">MAX PEER SIMILARITY SCORE</text>
+  <text x="205" y="242" fill="#10b981" font-size="36" font-weight="900">3.28%</text>
+  <rect x="585" y="200" width="115" height="30" rx="8" fill="#064e3b" />
+  <text x="642" y="220" fill="#34d399" font-size="11" font-weight="800" text-anchor="middle">LOW RISK</text>
+
+  <!-- Verdict Box -->
+  <rect x="180" y="275" width="540" height="45" rx="10" fill="#131b2e" stroke="#1e293b" />
+  <text x="200" y="303" fill="#cbd5e1" font-size="12" font-style="italic">"Submission appears original with high unique content index. Peer similarity is within normal limits."</text>
+
+  <!-- Peer Matches List -->
+  <text x="185" y="348" fill="#94a3b8" font-size="11" font-weight="800">CLOSEST PEER SUBMISSIONS:</text>
+
+  <!-- Match 1 -->
+  <rect x="180" y="360" width="540" height="45" rx="10" fill="#0f172a" stroke="#334155" />
+  <text x="200" y="382" fill="#f8fafc" font-size="13" font-weight="700">Emily Chen</text>
+  <text x="200" y="396" fill="#64748b" font-size="10">emily_chen_docker_submission.pdf</text>
+  <rect x="620" y="370" width="85" height="25" rx="6" fill="#064e3b" />
+  <text x="662" y="386" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle">3.28% Match</text>
+
+  <!-- Match 2 -->
+  <rect x="180" y="415" width="540" height="45" rx="10" fill="#0f172a" stroke="#334155" />
+  <text x="200" y="437" fill="#f8fafc" font-size="13" font-weight="700">Marcus Vance</text>
+  <text x="200" y="451" fill="#64748b" font-size="10">marcus_vance_lab.pdf</text>
+  <rect x="620" y="425" width="85" height="25" rx="6" fill="#064e3b" />
+  <text x="662" y="441" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle">1.12% Match</text>
+
+  <!-- Close button -->
+  <rect x="600" y="475" width="120" height="32" rx="8" fill="#334155" />
+  <text x="660" y="496" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">Close Scanner</text>
+</svg>
