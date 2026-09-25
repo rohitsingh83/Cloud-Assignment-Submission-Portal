@@ -10,7 +10,9 @@ const state = {
   assignments: [],
   courses: [],
   teacherSubmissions: [],
-  selectedFile: null
+  selectedFile: null,
+  studentStatusFilter: "ALL",
+  teacherStatusFilter: "ALL"
 };
 
 // Dynamic Cloud API Base Resolution:
@@ -71,13 +73,13 @@ function switchAuthTab(tab) {
   const regForm = document.getElementById("registerForm");
 
   if (tab === "login") {
-    loginBtn.className = "flex-1 py-3 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50";
-    regBtn.className = "flex-1 py-3 text-center text-sm font-semibold text-slate-500 hover:text-slate-700";
+    loginBtn.className = "flex-1 py-3.5 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-white transition";
+    regBtn.className = "flex-1 py-3.5 text-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition";
     loginForm.classList.remove("hidden");
     regForm.classList.add("hidden");
   } else {
-    regBtn.className = "flex-1 py-3 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50";
-    loginBtn.className = "flex-1 py-3 text-center text-sm font-semibold text-slate-500 hover:text-slate-700";
+    regBtn.className = "flex-1 py-3.5 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-white transition";
+    loginBtn.className = "flex-1 py-3.5 text-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition";
     regForm.classList.remove("hidden");
     loginForm.classList.add("hidden");
   }
@@ -179,6 +181,13 @@ function renderView() {
   document.getElementById("navUserName").textContent = state.user.name;
   document.getElementById("navUserRole").textContent = state.user.role;
 
+  // Set avatar initials
+  const avatarEl = document.getElementById("navUserAvatar");
+  if (avatarEl) {
+    const initials = state.user.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase() || "U";
+    avatarEl.textContent = initials;
+  }
+
   if (state.user.role === "teacher" || state.user.role === "admin") {
     studentSec.classList.add("hidden");
     teacherSec.classList.remove("hidden");
@@ -198,17 +207,20 @@ function switchStudentTab(tab) {
   const subsBtn = document.getElementById("studentTabSubsBtn");
   const assignList = document.getElementById("studentAssignmentsList");
   const subsList = document.getElementById("studentSubmissionsList");
+  const filterPills = document.getElementById("studentStatusFilterPills");
 
   if (tab === "assignments") {
-    assignBtn.className = "pb-2 text-sm font-extrabold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center";
+    assignBtn.className = "pb-2 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 transition flex items-center";
     subsBtn.className = "pb-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition flex items-center";
     assignList.classList.remove("hidden");
     subsList.classList.add("hidden");
+    if (filterPills) filterPills.classList.remove("hidden");
   } else {
-    subsBtn.className = "pb-2 text-sm font-extrabold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center";
+    subsBtn.className = "pb-2 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 transition flex items-center";
     assignBtn.className = "pb-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition flex items-center";
     subsList.classList.remove("hidden");
     assignList.classList.add("hidden");
+    if (filterPills) filterPills.classList.add("hidden");
     loadStudentSubmissions();
   }
 }
@@ -239,31 +251,60 @@ async function loadStudentAssignments() {
       headers: { "Authorization": `Bearer ${state.token}` }
     });
     state.assignments = await res.json();
-    renderStudentAssignments(state.assignments);
+    filterStudentAssignments();
   } catch (err) {
     showToast("Error loading assignments", "error");
   }
 }
 
+function setStudentStatusFilter(status) {
+  state.studentStatusFilter = status;
+  ["studentPillAll", "studentPillPending", "studentPillSubmitted"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("active");
+  });
+
+  if (status === "ALL") document.getElementById("studentPillAll")?.classList.add("active");
+  if (status === "PENDING") document.getElementById("studentPillPending")?.classList.add("active");
+  if (status === "SUBMITTED") document.getElementById("studentPillSubmitted")?.classList.add("active");
+
+  filterStudentAssignments();
+}
+
 function filterStudentAssignments() {
   const searchInput = document.getElementById("studentSearchInput");
   const search = (searchInput ? searchInput.value : "").toLowerCase().trim();
-  if (!search) {
-    renderStudentAssignments(state.assignments);
-    return;
+
+  let list = state.assignments || [];
+
+  // Filter by status pill
+  if (state.studentStatusFilter === "PENDING") {
+    list = list.filter(a => !a.has_submitted);
+  } else if (state.studentStatusFilter === "SUBMITTED") {
+    list = list.filter(a => a.has_submitted);
   }
-  const filtered = state.assignments.filter(a => {
-    return (a.title && a.title.toLowerCase().includes(search)) ||
-           (a.description && a.description.toLowerCase().includes(search)) ||
-           (a.course_code && a.course_code.toLowerCase().includes(search));
-  });
-  renderStudentAssignments(filtered);
+
+  // Filter by search query
+  if (search) {
+    list = list.filter(a => {
+      return (a.title && a.title.toLowerCase().includes(search)) ||
+             (a.description && a.description.toLowerCase().includes(search)) ||
+             (a.course_code && a.course_code.toLowerCase().includes(search));
+    });
+  }
+
+  renderStudentAssignments(list);
 }
 
 function renderStudentAssignments(assignments) {
   const container = document.getElementById("studentAssignmentsList");
   if (!assignments || assignments.length === 0) {
-    container.innerHTML = `<div class="col-span-2 text-center p-8 bg-white rounded-xl border border-slate-200 text-slate-500 text-sm">No assignments posted yet.</div>`;
+    container.innerHTML = `
+      <div class="col-span-2 text-center p-12 bg-white rounded-3xl border border-slate-200/90 text-slate-500 shadow-sm space-y-2">
+        <i class="fa-solid fa-folder-open text-4xl text-slate-300"></i>
+        <h4 class="font-bold text-slate-700">No Coursework Found</h4>
+        <p class="text-xs text-slate-400">There are currently no assignments matching your active search or filter.</p>
+      </div>`;
     return;
   }
 
@@ -283,34 +324,36 @@ function renderStudentAssignments(assignments) {
     }
 
     return `
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col justify-between space-y-4">
+      <div class="bg-white rounded-3xl shadow-sm border border-slate-200/90 p-5 flex flex-col justify-between space-y-4 hover-card transition">
         <div>
           <div class="flex items-center justify-between gap-2 mb-2">
-            <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100">${escapeHtml(a.course_code || 'CS-401')}</span>
+            <span class="text-xs font-black px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-100 flex items-center">
+              <i class="fa-solid fa-graduation-cap mr-1.5 text-indigo-500"></i> ${escapeHtml(a.course_code || 'CS-401')}
+            </span>
             ${statusBadge}
           </div>
-          <h3 class="font-bold text-base text-slate-900">${escapeHtml(a.title)}</h3>
+          <h3 class="font-black text-base text-slate-900 leading-snug">${escapeHtml(a.title)}</h3>
           <p class="text-xs text-slate-600 mt-2 line-clamp-3 leading-relaxed">${escapeHtml(a.description || 'No description provided.')}</p>
         </div>
 
         <div class="border-t border-slate-100 pt-3 space-y-2 text-xs text-slate-500">
           <div class="flex justify-between items-center">
-            <span><i class="fa-regular fa-calendar mr-1"></i> Deadline:</span>
-            <span class="font-medium ${isPast ? 'text-rose-600 font-bold' : 'text-slate-800'}">${deadlineDate.toLocaleString()}</span>
+            <span><i class="fa-regular fa-calendar mr-1"></i> Due Date:</span>
+            <span class="font-semibold ${isPast ? 'text-rose-600 font-bold' : 'text-slate-800'}">${deadlineDate.toLocaleString()}</span>
           </div>
           <div class="flex justify-between items-center">
             <span><i class="fa-solid fa-award mr-1"></i> Maximum Marks:</span>
-            <span class="font-medium text-slate-800">${a.max_marks} pts</span>
+            <span class="font-semibold text-slate-800">${a.max_marks} pts</span>
           </div>
           <div class="flex justify-between items-center">
-            <span><i class="fa-solid fa-file-lines mr-1"></i> Allowed Formats:</span>
-            <span class="uppercase text-indigo-700 font-semibold">${escapeHtml(a.allowed_file_types)}</span>
+            <span><i class="fa-solid fa-file-lines mr-1"></i> Format:</span>
+            <span class="uppercase text-indigo-700 font-bold bg-indigo-50/70 px-2 py-0.5 rounded">${escapeHtml(a.allowed_file_types)}</span>
           </div>
         </div>
 
-        <button onclick="openSubmitModal('${a.assignment_id}', '${escapeHtml(a.title)}', '${a.allowed_file_types}')" class="w-full ${a.has_submitted ? 'bg-slate-100 hover:bg-slate-200 text-slate-800' : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20'} text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center">
+        <button onclick="openSubmitModal('${a.assignment_id}', '${escapeHtml(a.title)}', '${a.allowed_file_types}')" class="w-full ${a.has_submitted ? 'bg-slate-100 hover:bg-slate-200 text-slate-800' : 'bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-md shadow-indigo-600/20'} text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center">
           <i class="fa-solid ${a.has_submitted ? 'fa-arrows-rotate' : 'fa-upload'} mr-1.5"></i>
-          ${a.has_submitted ? 'Resubmit Assignment' : 'Submit Assignment'}
+          ${a.has_submitted ? 'Resubmit Assignment Solution' : 'Submit Assignment Solution'}
         </button>
       </div>
     `;
@@ -326,43 +369,50 @@ async function loadStudentSubmissions() {
     const subs = await res.json();
 
     if (!subs || subs.length === 0) {
-      container.innerHTML = `<div class="text-center p-8 bg-white rounded-2xl border border-slate-200 text-slate-500 text-sm">You haven't submitted any assignments yet.</div>`;
+      container.innerHTML = `
+        <div class="text-center p-12 bg-white rounded-3xl border border-slate-200/90 text-slate-500 shadow-sm space-y-2">
+          <i class="fa-solid fa-clock-rotate-left text-4xl text-slate-300"></i>
+          <h4 class="font-bold text-slate-700">No Submissions Recorded</h4>
+          <p class="text-xs text-slate-400">You haven't submitted any assignments yet. Choose a task from Course Assignments.</p>
+        </div>`;
       return;
     }
 
     container.innerHTML = subs.map(s => {
       const isGraded = s.submission_status === "GRADED";
       return `
-        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
+        <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/90 space-y-4 hover-card transition">
           <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <div>
-              <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">${escapeHtml(s.course_code || 'CS-401')}</span>
-              <h4 class="font-bold text-base text-slate-900">${escapeHtml(s.assignment_title)}</h4>
+              <span class="text-xs font-black text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">${escapeHtml(s.course_code || 'CS-401')}</span>
+              <h4 class="font-black text-base text-slate-900 mt-1">${escapeHtml(s.assignment_title)}</h4>
               <p class="text-xs text-slate-500">Submitted: ${new Date(s.submitted_at).toLocaleString()}</p>
             </div>
             <div class="flex items-center space-x-2">
               <span class="badge-status ${s.submission_status === 'LATE' ? 'badge-late' : s.submission_status === 'GRADED' ? 'badge-graded' : 'badge-submitted'}">
                 ${s.submission_status}
               </span>
-              <button onclick="openPreviewModal('${s.submission_id}', '${escapeHtml(s.file_name)}')" class="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-3 py-1.5 rounded-xl transition font-semibold">
-                <i class="fa-solid fa-eye mr-1"></i> Preview
+              <button onclick="openPreviewModal('${s.submission_id}', '${escapeHtml(s.file_name)}')" class="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-3 py-1.5 rounded-xl transition font-bold flex items-center">
+                <i class="fa-solid fa-eye mr-1.5"></i> Preview
               </button>
-              <button onclick="downloadFile('${s.submission_id}')" class="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-xl transition font-medium">
-                <i class="fa-solid fa-download mr-1"></i> Download
+              <button onclick="downloadFile('${s.submission_id}')" class="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 text-xs px-3 py-1.5 rounded-xl transition font-semibold flex items-center">
+                <i class="fa-solid fa-download mr-1.5"></i> Download
               </button>
             </div>
           </div>
 
           <!-- Feedback & Marks Card -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+          <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4">
             <div class="flex justify-between items-center mb-2">
-              <span class="text-xs font-bold text-slate-700 uppercase"><i class="fa-solid fa-chalkboard-user mr-1 text-indigo-600"></i> Faculty Evaluation</span>
-              <span class="text-sm font-extrabold ${isGraded ? 'text-indigo-600' : 'text-slate-400'}">
+              <span class="text-xs font-black text-slate-700 uppercase flex items-center">
+                <i class="fa-solid fa-chalkboard-user mr-1.5 text-indigo-600"></i> Faculty Evaluation
+              </span>
+              <span class="text-sm font-black ${isGraded ? 'text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-lg border border-indigo-100' : 'text-slate-400'}">
                 ${isGraded ? `Marks: ${s.marks} / ${s.max_marks}` : 'Evaluation Pending'}
               </span>
             </div>
             <p class="text-xs text-slate-600 leading-relaxed italic">
-              ${s.feedback ? `"${escapeHtml(s.feedback)}"` : (isGraded ? 'No written feedback comments provided.' : 'Your submission has been securely written to cloud object storage and is waiting for instructor review.')}
+              ${s.feedback ? `"${escapeHtml(s.feedback)}"` : (isGraded ? 'No written feedback comments provided.' : 'Your submission has been securely written to cloud object storage and is awaiting instructor evaluation.')}
             </p>
           </div>
         </div>
@@ -542,26 +592,70 @@ async function loadAllSubmissionsForTeacher() {
     }
 
     state.teacherSubmissions = allSubs;
-    renderTeacherSubmissionsTable(state.teacherSubmissions);
+    filterTeacherSubmissions();
   } catch (err) {
     showToast("Error loading submissions", "error");
   }
 }
 
+function setTeacherStatusFilter(status) {
+  state.teacherStatusFilter = status;
+  ["teacherPillAll", "teacherPillPending", "teacherPillLate", "teacherPillGraded"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("active");
+  });
+
+  if (status === "ALL") document.getElementById("teacherPillAll")?.classList.add("active");
+  if (status === "PENDING") document.getElementById("teacherPillPending")?.classList.add("active");
+  if (status === "LATE") document.getElementById("teacherPillLate")?.classList.add("active");
+  if (status === "GRADED") document.getElementById("teacherPillGraded")?.classList.add("active");
+
+  filterTeacherSubmissions();
+}
+
 function filterTeacherSubmissions() {
-  const selected = document.getElementById("teacherAssignmentFilter").value;
-  if (selected === "ALL") {
-    renderTeacherSubmissionsTable(state.teacherSubmissions);
-  } else {
-    const filtered = state.teacherSubmissions.filter(s => s.assignment_id === selected);
-    renderTeacherSubmissionsTable(filtered);
+  const selectedAssignment = document.getElementById("teacherAssignmentFilter").value;
+  const searchInput = document.getElementById("teacherSearchStudent");
+  const searchQuery = (searchInput ? searchInput.value : "").toLowerCase().trim();
+
+  let filtered = state.teacherSubmissions || [];
+
+  // 1. Assignment Filter
+  if (selectedAssignment !== "ALL") {
+    filtered = filtered.filter(s => s.assignment_id === selectedAssignment);
   }
+
+  // 2. Status Filter
+  if (state.teacherStatusFilter === "PENDING") {
+    filtered = filtered.filter(s => s.submission_status === "SUBMITTED");
+  } else if (state.teacherStatusFilter === "LATE") {
+    filtered = filtered.filter(s => s.submission_status === "LATE");
+  } else if (state.teacherStatusFilter === "GRADED") {
+    filtered = filtered.filter(s => s.submission_status === "GRADED");
+  }
+
+  // 3. Search Student Query
+  if (searchQuery) {
+    filtered = filtered.filter(s => {
+      return (s.student_name && s.student_name.toLowerCase().includes(searchQuery)) ||
+             (s.student_email && s.student_email.toLowerCase().includes(searchQuery)) ||
+             (s.assignment_title && s.assignment_title.toLowerCase().includes(searchQuery));
+    });
+  }
+
+  renderTeacherSubmissionsTable(filtered);
 }
 
 function renderTeacherSubmissionsTable(submissions) {
   const tbody = document.getElementById("teacherSubmissionsTableBody");
   if (!submissions || submissions.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-xs text-slate-500">No submissions found matching criteria.</td></tr>`;
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="py-10 text-center text-xs text-slate-500">
+          <i class="fa-solid fa-inbox text-3xl text-slate-300 block mb-2"></i>
+          No submissions found matching criteria.
+        </td>
+      </tr>`;
     return;
   }
 
@@ -570,11 +664,20 @@ function renderTeacherSubmissionsTable(submissions) {
     if (s.submission_status === "LATE") statusClass = "badge-late";
     if (s.submission_status === "GRADED") statusClass = "badge-graded";
 
+    const initials = s.student_name ? s.student_name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase() : "ST";
+
     return `
-      <tr class="hover:bg-slate-50/80 transition">
+      <tr class="hover:bg-slate-50/90 transition">
         <td class="py-3.5 px-4">
-          <div class="font-bold text-slate-900">${escapeHtml(s.student_name || 'Student')}</div>
-          <div class="text-xs text-slate-400">${escapeHtml(s.student_email || '-')}</div>
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 text-white flex items-center justify-center font-bold text-xs uppercase shadow-xs">
+              ${initials}
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 leading-tight">${escapeHtml(s.student_name || 'Student')}</div>
+              <div class="text-[11px] text-slate-400">${escapeHtml(s.student_email || '-')}</div>
+            </div>
+          </div>
         </td>
         <td class="py-3.5 px-4 font-semibold text-slate-800">${escapeHtml(s.assignment_title)}</td>
         <td class="py-3.5 px-4 text-xs text-slate-500">${new Date(s.submitted_at).toLocaleString()}</td>
@@ -586,21 +689,21 @@ function renderTeacherSubmissionsTable(submissions) {
         </td>
         <td class="py-3.5 px-4">
           <div class="flex items-center space-x-1.5">
-            <button onclick="openPreviewModal('${s.submission_id}', '${escapeHtml(s.file_name)}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs px-2.5 py-1 rounded-lg border border-indigo-200 transition font-semibold flex items-center" title="Inline In-Browser Document Preview">
+            <button onclick="openPreviewModal('${s.submission_id}', '${escapeHtml(s.file_name)}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs px-2.5 py-1 rounded-lg border border-indigo-200 transition font-bold flex items-center" title="Inline In-Browser Document Preview">
               <i class="fa-solid fa-eye mr-1"></i> Preview
             </button>
             <button onclick="downloadFile('${s.submission_id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-2 py-1 rounded-lg border border-slate-300 transition font-medium flex items-center" title="Download from Cloud Storage">
               <i class="fa-solid fa-download"></i>
             </button>
           </div>
-          <div class="text-[11px] text-slate-400 mt-1 truncate max-w-[130px]">${escapeHtml(truncateString(s.file_name, 16))}</div>
+          <div class="text-[11px] text-slate-400 mt-1 truncate max-w-[130px] font-mono">${escapeHtml(truncateString(s.file_name, 16))}</div>
         </td>
         <td class="py-3.5 px-4 text-right">
           <div class="flex items-center justify-end space-x-2">
-            <button onclick="openSimilarityModal('${s.submission_id}', '${escapeHtml(s.student_name)}', '${escapeHtml(s.assignment_title)}')" class="bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs px-2.5 py-1.5 rounded-lg border border-purple-200 transition font-semibold flex items-center" title="Scan for Plagiarism and Peer Similarity">
-              <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Similarity
+            <button onclick="openSimilarityModal('${s.submission_id}', '${escapeHtml(s.student_name)}', '${escapeHtml(s.assignment_title)}')" class="bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs px-2.5 py-1.5 rounded-xl border border-purple-200 transition font-bold flex items-center" title="Scan for Plagiarism and Peer Similarity">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1 text-purple-600"></i> Similarity
             </button>
-            <button onclick="openGradeModal('${s.submission_id}', '${escapeHtml(s.student_name)}', '${escapeHtml(s.assignment_title)}', ${s.max_marks}, ${s.marks ?? 'null'}, '${escapeHtml(s.feedback || '')}')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-semibold flex items-center shadow-sm">
+            <button onclick="openGradeModal('${s.submission_id}', '${escapeHtml(s.student_name)}', '${escapeHtml(s.assignment_title)}', ${s.max_marks}, ${s.marks ?? 'null'}, '${escapeHtml(s.feedback || '')}')" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-xs px-3 py-1.5 rounded-xl transition font-bold flex items-center shadow-xs">
               <i class="fa-solid fa-pen-to-square mr-1"></i> Grade
             </button>
           </div>
@@ -697,6 +800,17 @@ function openGradeModal(submissionId, studentName, assignmentTitle, maxMarks, cu
 
 function closeGradeModal() {
   document.getElementById("gradeModal").classList.add("hidden");
+}
+
+function insertFeedbackPreset(phrase) {
+  const textarea = document.getElementById("gradeModalFeedbackInput");
+  if (!textarea) return;
+  if (textarea.value.trim().length > 0) {
+    textarea.value = textarea.value.trim() + " " + phrase;
+  } else {
+    textarea.value = phrase;
+  }
+  textarea.focus();
 }
 
 async function handleSaveGrade(e) {

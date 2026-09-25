@@ -13,34 +13,41 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col ambient-bg">
 
   <!-- TOP CLOUD NAVBAR -->
-  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-40">
+  <header class="glass-nav text-white shadow-xl sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="renderView()">
-        <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl shadow-md text-white">
+      <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="renderView()">
+        <div class="bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-600 p-2.5 rounded-xl shadow-lg shadow-indigo-500/30 text-white">
           <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
         </div>
         <div>
-          <span class="font-extrabold text-lg tracking-tight block leading-tight">EduCloud</span>
-          <span class="text-[11px] text-indigo-300 font-medium">Assignment & Feedback Portal</span>
+          <span class="font-black text-lg tracking-tight block leading-tight text-white flex items-center gap-1.5">
+            EduCloud <span class="text-[10px] bg-indigo-500/40 text-indigo-200 border border-indigo-400/40 px-1.5 py-0.5 rounded-md uppercase font-bold tracking-wider">v1.0</span>
+          </span>
+          <span class="text-[11px] text-indigo-300 font-medium tracking-wide">Assignment & Feedback Portal</span>
         </div>
       </div>
 
       <!-- Cloud Status Badge & User Controls -->
-      <div class="flex items-center space-x-4">
-        <div class="hidden sm:flex items-center space-x-2 bg-indigo-950/70 px-3 py-1.5 rounded-full border border-indigo-700/60 text-xs">
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <div class="hidden md:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-slate-700/80 text-xs">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-emerald-300 font-medium">Cloud Storage Active</span>
+          <span class="text-emerald-300 font-bold">Cloud Object Storage Active</span>
         </div>
 
         <div id="authNavProfile" class="hidden items-center space-x-3">
-          <div class="text-right hidden sm:block">
-            <div id="navUserName" class="text-sm font-bold text-white">User</div>
-            <div id="navUserRole" class="text-xs text-indigo-300 capitalize font-medium">Role</div>
+          <div class="flex items-center space-x-2.5 bg-slate-800/80 border border-slate-700/80 py-1 px-3 rounded-full">
+            <div id="navUserAvatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+              U
+            </div>
+            <div class="text-left hidden sm:block">
+              <div id="navUserName" class="text-xs font-bold text-white leading-tight">User</div>
+              <div id="navUserRole" class="text-[10px] text-indigo-300 capitalize font-medium leading-tight">Role</div>
+            </div>
           </div>
-          <button id="logoutBtn" onclick="logout()" class="bg-rose-500/90 hover:bg-rose-600 text-white text-xs px-3.5 py-2 rounded-xl transition font-bold shadow-sm flex items-center">
+          <button id="logoutBtn" onclick="logout()" class="bg-rose-500/90 hover:bg-rose-600 text-white text-xs px-3 py-1.5 rounded-xl transition font-bold shadow-sm flex items-center">
             <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
           </button>
         </div>
@@ -55,22 +62,35 @@
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- 1. AUTH SCREEN (Logged out) -->
-    <div id="authSection" class="max-w-md mx-auto my-6">
-      <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden">
-        <div class="bg-gradient-to-br from-indigo-700 via-indigo-800 to-indigo-950 p-8 text-white text-center relative overflow-hidden">
-          <div class="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-          <i class="fa-solid fa-graduation-cap text-5xl mb-3 text-indigo-300"></i>
+    <div id="authSection" class="max-w-lg mx-auto my-6 animate-in fade-in duration-300">
+      <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden">
+        <!-- Header Banner -->
+        <div class="bg-gradient-to-br from-indigo-800 via-indigo-900 to-slate-950 p-8 text-white text-center relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-40 h-40 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-violet-500/20 rounded-full blur-xl pointer-events-none"></div>
+          
+          <div class="inline-flex p-3 bg-white/10 backdrop-blur-md rounded-2xl mb-3 border border-white/20 shadow-inner">
+            <i class="fa-solid fa-graduation-cap text-3xl text-indigo-300"></i>
+          </div>
           <h2 class="text-2xl font-black tracking-tight">Institutional Cloud Portal</h2>
-          <p class="text-xs text-indigo-200 mt-1 font-medium">Sign in to submit, grade, or review coursework</p>
+          <p class="text-xs text-indigo-200 mt-1 font-medium max-w-sm mx-auto">
+            Decoupled cloud architecture for assignment management, digital grading, and object storage.
+          </p>
+
+          <div class="mt-4 flex flex-wrap justify-center gap-2 text-[11px] text-indigo-200 font-semibold">
+            <span class="bg-white/10 px-2.5 py-1 rounded-md border border-white/10"><i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i> JWT Auth</span>
+            <span class="bg-white/10 px-2.5 py-1 rounded-md border border-white/10"><i class="fa-solid fa-box-archive mr-1 text-indigo-300"></i> S3 / Local Store</span>
+            <span class="bg-white/10 px-2.5 py-1 rounded-md border border-white/10"><i class="fa-solid fa-bolt mr-1 text-amber-400"></i> FastAPI</span>
+          </div>
         </div>
 
         <!-- Auth Tabs -->
-        <div class="flex border-b border-slate-200">
-          <button id="loginTabBtn" onclick="switchAuthTab('login')" class="flex-1 py-3.5 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition">
+        <div class="flex border-b border-slate-200 bg-slate-50/50">
+          <button id="loginTabBtn" onclick="switchAuthTab('login')" class="flex-1 py-3.5 text-center text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-white transition">
             Sign In
           </button>
           <button id="registerTabBtn" onclick="switchAuthTab('register')" class="flex-1 py-3.5 text-center text-sm font-semibold text-slate-500 hover:text-slate-800 transition">
-            Register Account
+            Create Account
           </button>
         </div>
 
@@ -79,14 +99,20 @@
           <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
             <div>
               <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Email Address</label>
-              <input id="loginEmail" type="email" required placeholder="alex@cloudportal.edu" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              <div class="relative">
+                <input id="loginEmail" type="email" required placeholder="alex@cloudportal.edu" class="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                <i class="fa-regular fa-envelope absolute left-3 top-3 text-slate-400 text-sm"></i>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Password</label>
-              <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              <div class="relative">
+                <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-sm"></i>
+              </div>
             </div>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-md shadow-indigo-600/20 flex items-center justify-center">
-              <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i> Authenticate & Enter
+            <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-indigo-600/25 flex items-center justify-center">
+              <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i> Authenticate & Enter Portal
             </button>
           </form>
 
@@ -94,37 +120,58 @@
           <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
             <div>
               <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Full Name</label>
-              <input id="regName" type="text" required placeholder="John Doe" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              <div class="relative">
+                <input id="regName" type="text" required placeholder="John Doe" class="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                <i class="fa-regular fa-user absolute left-3 top-3 text-slate-400 text-sm"></i>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Email Address</label>
-              <input id="regEmail" type="email" required placeholder="john@cloudportal.edu" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              <div class="relative">
+                <input id="regEmail" type="email" required placeholder="john@cloudportal.edu" class="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                <i class="fa-regular fa-envelope absolute left-3 top-3 text-slate-400 text-sm"></i>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Password</label>
-              <input id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+              <div class="relative">
+                <input id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full pl-9 pr-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-sm"></i>
+              </div>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Role</label>
-              <select id="regRole" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white">
-                <option value="student">Student (Submit Assignments)</option>
-                <option value="teacher">Teacher (Create & Grade)</option>
+              <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Portal Role</label>
+              <select id="regRole" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition bg-white font-medium">
+                <option value="student">Student (Submit Coursework & View Feedback)</option>
+                <option value="teacher">Teacher (Publish Assignments & Grade)</option>
               </select>
             </div>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-md shadow-indigo-600/20 flex items-center justify-center">
-              <i class="fa-solid fa-user-plus mr-2"></i> Create Account
+            <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-indigo-600/25 flex items-center justify-center">
+              <i class="fa-solid fa-user-plus mr-2"></i> Create Cloud Account
             </button>
           </form>
 
           <!-- QUICK DEMO LOGINS -->
           <div class="mt-6 pt-5 border-t border-slate-200">
-            <p class="text-xs text-slate-500 text-center font-bold uppercase tracking-wider mb-3">1-Click Demo Profiles:</p>
+            <p class="text-xs text-slate-500 text-center font-bold uppercase tracking-wider mb-3">1-Click Pre-Seeded Profiles:</p>
             <div class="grid grid-cols-2 gap-2.5">
-              <button type="button" onclick="fillDemoCredentials('teacher@cloudportal.edu', 'TeacherPass123!')" class="text-xs bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 text-indigo-900 font-semibold p-2.5 rounded-xl text-center transition flex items-center justify-center">
-                <i class="fa-solid fa-chalkboard-user text-indigo-600 mr-1.5"></i> Faculty Demo
+              <button type="button" onclick="fillDemoCredentials('teacher@cloudportal.edu', 'TeacherPass123!')" class="text-xs bg-indigo-50 hover:bg-indigo-100/80 border border-indigo-200 text-indigo-900 font-semibold p-3 rounded-xl text-left transition flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 leading-tight">Faculty Demo</div>
+                  <div class="text-[10px] text-indigo-600">Prof. Sarah</div>
+                </div>
               </button>
-              <button type="button" onclick="fillDemoCredentials('student@cloudportal.edu', 'StudentPass123!')" class="text-xs bg-emerald-50/70 hover:bg-emerald-100 border border-emerald-200 text-emerald-900 font-semibold p-2.5 rounded-xl text-center transition flex items-center justify-center">
-                <i class="fa-solid fa-user-graduate text-emerald-600 mr-1.5"></i> Student Demo
+              <button type="button" onclick="fillDemoCredentials('student@cloudportal.edu', 'StudentPass123!')" class="text-xs bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200 text-emerald-900 font-semibold p-3 rounded-xl text-left transition flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 leading-tight">Student Demo</div>
+                  <div class="text-[10px] text-emerald-600">Alex Chen</div>
+                </div>
               </button>
             </div>
           </div>
@@ -133,48 +180,67 @@
     </div>
 
     <!-- 2. STUDENT PORTAL -->
-    <div id="studentSection" class="hidden space-y-6">
+    <div id="studentSection" class="hidden space-y-6 animate-in fade-in duration-300">
       <!-- Welcome Header -->
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/90 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span class="text-xs font-extrabold text-indigo-600 tracking-wider uppercase">Student Portal</span>
-          <h1 class="text-2xl font-black text-slate-900">Welcome, <span id="studentDisplayName">Student</span>!</h1>
-          <p class="text-xs text-slate-500 mt-0.5">Track your enrolled coursework, submit solutions, and review faculty evaluations.</p>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-black text-indigo-600 tracking-wider uppercase bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-100">Student Portal</span>
+            <span class="text-xs text-slate-400">&bull;</span>
+            <span class="text-xs text-slate-500 font-medium">Cloud Academic Term 2026</span>
+          </div>
+          <h1 class="text-2xl font-black text-slate-900 mt-1">Welcome back, <span id="studentDisplayName" class="text-gradient">Student</span>!</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Submit homework solutions directly into cloud object storage and review faculty feedback.</p>
         </div>
-        <div class="flex items-center space-x-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-2 rounded-xl font-semibold">
+        <div class="flex items-center space-x-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-2 rounded-2xl font-bold shadow-xs">
           <i class="fa-solid fa-shield-halved text-emerald-600"></i>
           <span>Authenticated Session Active</span>
         </div>
       </div>
 
       <!-- Student Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-slate-400 text-xs font-bold uppercase">Total Tasks</div>
-          <div id="statStudentTotal" class="text-2xl font-black text-slate-800 mt-1">0</div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+        <div class="stat-card stat-card-total">
+          <div class="flex items-center justify-between">
+            <div class="text-slate-400 text-xs font-bold uppercase">Total Tasks</div>
+            <i class="fa-solid fa-book-open text-slate-300 text-sm"></i>
+          </div>
+          <div id="statStudentTotal" class="text-2xl font-black text-slate-800 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-amber-500 text-xs font-bold uppercase">Pending</div>
-          <div id="statStudentPending" class="text-2xl font-black text-amber-600 mt-1">0</div>
+        <div class="stat-card stat-card-pending">
+          <div class="flex items-center justify-between">
+            <div class="text-amber-500 text-xs font-bold uppercase">Pending</div>
+            <i class="fa-regular fa-clock text-amber-300 text-sm"></i>
+          </div>
+          <div id="statStudentPending" class="text-2xl font-black text-amber-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-emerald-500 text-xs font-bold uppercase">Submitted</div>
-          <div id="statStudentSubmitted" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+        <div class="stat-card stat-card-submitted">
+          <div class="flex items-center justify-between">
+            <div class="text-emerald-500 text-xs font-bold uppercase">Submitted</div>
+            <i class="fa-regular fa-circle-check text-emerald-300 text-sm"></i>
+          </div>
+          <div id="statStudentSubmitted" class="text-2xl font-black text-emerald-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-rose-500 text-xs font-bold uppercase">Late Submissions</div>
-          <div id="statStudentLate" class="text-2xl font-black text-rose-600 mt-1">0</div>
+        <div class="stat-card stat-card-late">
+          <div class="flex items-center justify-between">
+            <div class="text-rose-500 text-xs font-bold uppercase">Late</div>
+            <i class="fa-solid fa-triangle-exclamation text-rose-300 text-sm"></i>
+          </div>
+          <div id="statStudentLate" class="text-2xl font-black text-rose-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-indigo-500 text-xs font-bold uppercase">Graded & Reviewed</div>
-          <div id="statStudentGraded" class="text-2xl font-black text-indigo-600 mt-1">0</div>
+        <div class="stat-card stat-card-graded">
+          <div class="flex items-center justify-between">
+            <div class="text-indigo-500 text-xs font-bold uppercase">Graded</div>
+            <i class="fa-solid fa-check-double text-indigo-300 text-sm"></i>
+          </div>
+          <div id="statStudentGraded" class="text-2xl font-black text-indigo-600 mt-1.5">0</div>
         </div>
       </div>
 
       <!-- Student View Tabs & Search -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-2">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-3">
         <div class="flex space-x-6">
-          <button id="studentTabAssignBtn" onclick="switchStudentTab('assignments')" class="pb-2 text-sm font-extrabold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center">
+          <button id="studentTabAssignBtn" onclick="switchStudentTab('assignments')" class="pb-2 text-sm font-black border-b-2 border-indigo-600 text-indigo-600 transition flex items-center">
             <i class="fa-solid fa-list-check mr-2"></i> Course Assignments
           </button>
           <button id="studentTabSubsBtn" onclick="switchStudentTab('submissions')" class="pb-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition flex items-center">
@@ -182,9 +248,18 @@
           </button>
         </div>
 
-        <div class="relative w-full sm:w-64">
-          <input type="text" id="studentSearchInput" oninput="filterStudentAssignments()" placeholder="Search assignments..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+        <div class="flex items-center space-x-3 w-full sm:w-auto">
+          <!-- Filter pills for student assignments -->
+          <div id="studentStatusFilterPills" class="hidden sm:flex items-center space-x-1.5">
+            <button onclick="setStudentStatusFilter('ALL')" class="filter-pill active" id="studentPillAll">All</button>
+            <button onclick="setStudentStatusFilter('PENDING')" class="filter-pill" id="studentPillPending">Pending</button>
+            <button onclick="setStudentStatusFilter('SUBMITTED')" class="filter-pill" id="studentPillSubmitted">Submitted</button>
+          </div>
+
+          <div class="relative w-full sm:w-60">
+            <input type="text" id="studentSearchInput" oninput="filterStudentAssignments()" placeholder="Search coursework..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          </div>
         </div>
       </div>
 
@@ -196,67 +271,98 @@
     </div>
 
     <!-- 3. TEACHER PORTAL -->
-    <div id="teacherSection" class="hidden space-y-6">
+    <div id="teacherSection" class="hidden space-y-6 animate-in fade-in duration-300">
       <!-- Welcome Header -->
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/90 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span class="text-xs font-extrabold text-indigo-600 tracking-wider uppercase">Faculty Grading Desk</span>
-          <h1 class="text-2xl font-black text-slate-900">Instructor: <span id="teacherDisplayName">Faculty</span></h1>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-black text-indigo-600 tracking-wider uppercase bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-100">Faculty Grading Desk</span>
+            <span class="text-xs text-slate-400">&bull;</span>
+            <span class="text-xs text-slate-500 font-medium">Evaluation & Feedback Center</span>
+          </div>
+          <h1 class="text-2xl font-black text-slate-900 mt-1">Instructor: <span id="teacherDisplayName" class="text-gradient">Faculty</span></h1>
           <p class="text-xs text-slate-500 mt-0.5">Manage assignments, review student submissions from Cloud Storage, and post grades.</p>
         </div>
         <div class="flex items-center space-x-2">
-          <button onclick="openCreateAssignmentModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center">
+          <button onclick="openCreateAssignmentModal()" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md shadow-indigo-600/20 transition flex items-center">
             <i class="fa-solid fa-plus mr-1.5"></i> Publish Assignment
           </button>
         </div>
       </div>
 
       <!-- Teacher Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-slate-400 text-xs font-bold uppercase">Assignments</div>
-          <div id="statTeacherTotalAssign" class="text-2xl font-black text-slate-800 mt-1">0</div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+        <div class="stat-card stat-card-total">
+          <div class="flex items-center justify-between">
+            <div class="text-slate-400 text-xs font-bold uppercase">Assignments</div>
+            <i class="fa-solid fa-layer-group text-slate-300 text-sm"></i>
+          </div>
+          <div id="statTeacherTotalAssign" class="text-2xl font-black text-slate-800 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-indigo-500 text-xs font-bold uppercase">Submissions</div>
-          <div id="statTeacherTotalSubs" class="text-2xl font-black text-indigo-600 mt-1">0</div>
+        <div class="stat-card stat-card-submitted">
+          <div class="flex items-center justify-between">
+            <div class="text-indigo-500 text-xs font-bold uppercase">Submissions</div>
+            <i class="fa-solid fa-inbox text-indigo-300 text-sm"></i>
+          </div>
+          <div id="statTeacherTotalSubs" class="text-2xl font-black text-indigo-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-amber-500 text-xs font-bold uppercase">Pending Review</div>
-          <div id="statTeacherPending" class="text-2xl font-black text-amber-600 mt-1">0</div>
+        <div class="stat-card stat-card-pending">
+          <div class="flex items-center justify-between">
+            <div class="text-amber-500 text-xs font-bold uppercase">Pending Review</div>
+            <i class="fa-regular fa-clock text-amber-300 text-sm"></i>
+          </div>
+          <div id="statTeacherPending" class="text-2xl font-black text-amber-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-rose-500 text-xs font-bold uppercase">Late Submissions</div>
-          <div id="statTeacherLate" class="text-2xl font-black text-rose-600 mt-1">0</div>
+        <div class="stat-card stat-card-late">
+          <div class="flex items-center justify-between">
+            <div class="text-rose-500 text-xs font-bold uppercase">Late Submissions</div>
+            <i class="fa-solid fa-triangle-exclamation text-rose-300 text-sm"></i>
+          </div>
+          <div id="statTeacherLate" class="text-2xl font-black text-rose-600 mt-1.5">0</div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-          <div class="text-emerald-500 text-xs font-bold uppercase">Graded</div>
-          <div id="statTeacherGraded" class="text-2xl font-black text-emerald-600 mt-1">0</div>
+        <div class="stat-card stat-card-graded">
+          <div class="flex items-center justify-between">
+            <div class="text-emerald-500 text-xs font-bold uppercase">Graded</div>
+            <i class="fa-solid fa-check-double text-emerald-300 text-sm"></i>
+          </div>
+          <div id="statTeacherGraded" class="text-2xl font-black text-emerald-600 mt-1.5">0</div>
         </div>
       </div>
 
       <!-- Submissions Table Filter & Export Toolbar -->
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="bg-white p-4 rounded-3xl border border-slate-200/90 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full md:w-auto">
           <label class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap">Filter Assignment:</label>
-          <select id="teacherAssignmentFilter" onchange="filterTeacherSubmissions()" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none w-full sm:w-64 bg-white font-medium">
+          <select id="teacherAssignmentFilter" onchange="filterTeacherSubmissions()" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none w-full sm:w-64 bg-white font-semibold text-slate-800">
             <option value="ALL">All Assignments</option>
           </select>
+
+          <!-- Status Filter Tabs for Teacher Table -->
+          <div class="flex items-center space-x-1.5 pt-1 sm:pt-0">
+            <button onclick="setTeacherStatusFilter('ALL')" id="teacherPillAll" class="filter-pill active">All</button>
+            <button onclick="setTeacherStatusFilter('PENDING')" id="teacherPillPending" class="filter-pill">Pending</button>
+            <button onclick="setTeacherStatusFilter('LATE')" id="teacherPillLate" class="filter-pill">Late</button>
+            <button onclick="setTeacherStatusFilter('GRADED')" id="teacherPillGraded" class="filter-pill">Graded</button>
+          </div>
         </div>
 
         <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
-          <button onclick="exportCurrentGradesCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl border border-slate-300 transition font-bold flex items-center">
-            <i class="fa-solid fa-file-csv text-emerald-600 mr-1.5"></i> Export Grades (CSV)
+          <div class="relative w-full sm:w-48">
+            <input type="text" id="teacherSearchStudent" oninput="filterTeacherSubmissions()" placeholder="Search student name..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+          </div>
+          <button onclick="exportCurrentGradesCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl border border-slate-300 transition font-bold flex items-center shrink-0">
+            <i class="fa-solid fa-file-csv text-emerald-600 mr-1.5"></i> Export CSV
           </button>
         </div>
       </div>
 
       <!-- Submissions Table -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="bg-white rounded-3xl shadow-sm border border-slate-200/90 overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-sm">
             <thead>
-              <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wider font-extrabold">
+              <tr class="bg-slate-50/90 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wider font-black">
                 <th class="py-3.5 px-4">Student</th>
                 <th class="py-3.5 px-4">Assignment</th>
                 <th class="py-3.5 px-4">Submitted At</th>
@@ -313,7 +419,7 @@
           <button type="button" onclick="closeSubmitModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
             Cancel
           </button>
-          <button type="submit" id="uploadSubmitBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20 flex items-center">
+          <button type="submit" id="uploadSubmitBtn" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20 flex items-center">
             <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Upload to Cloud Storage
           </button>
         </div>
@@ -369,7 +475,7 @@
           <button type="button" onclick="closeCreateAssignmentModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
             Cancel
           </button>
-          <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
+          <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
             Publish Assignment
           </button>
         </div>
@@ -399,7 +505,20 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Qualitative Feedback</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-bold text-slate-600 uppercase">Qualitative Feedback</label>
+            <span class="text-[11px] text-slate-400">Click preset to add</span>
+          </div>
+
+          <!-- Quick Feedback Presets -->
+          <div class="mb-2 flex flex-wrap">
+            <button type="button" onclick="insertFeedbackPreset('🌟 Outstanding architectural design and execution.')" class="feedback-preset-pill">🌟 Outstanding</button>
+            <button type="button" onclick="insertFeedbackPreset('✅ Well-documented code with thorough edge-case handling.')" class="feedback-preset-pill">✅ Well-documented</button>
+            <button type="button" onclick="insertFeedbackPreset('⚠️ Solid submission; minor edge case missed in error handling.')" class="feedback-preset-pill">⚠️ Minor Bug</button>
+            <button type="button" onclick="insertFeedbackPreset('⏱️ Late submission policy penalty applied per course syllabus.')" class="feedback-preset-pill">⏱️ Late Policy</button>
+            <button type="button" onclick="insertFeedbackPreset('🔍 Code overlap detected; please review plagiarism policy.')" class="feedback-preset-pill">🔍 Overlap</button>
+          </div>
+
           <textarea id="gradeModalFeedbackInput" rows="4" placeholder="Detail student strengths, architectural oversights, and actionable recommendations..." class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
         </div>
 
@@ -407,7 +526,7 @@
           <button type="button" onclick="closeGradeModal()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">
             Cancel
           </button>
-          <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
+          <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-xl text-xs font-bold transition shadow-md shadow-indigo-600/20">
             Save Evaluation
           </button>
         </div>
@@ -423,7 +542,7 @@
           <i class="fa-solid fa-file-pdf text-indigo-600 text-xl"></i>
           <div>
             <h4 id="previewModalTitle" class="font-extrabold text-sm text-slate-900">Document Preview</h4>
-            <span id="previewModalSubtitle" class="text-xs text-slate-500">Cloud Storage Asset</span>
+            <span id="previewModalSubtitle" class="text-xs text-slate-500">Cloud Storage Asset Stream</span>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -490,13 +609,14 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-      <div>
-        <strong>EduCloud Platform</strong> &copy; 2026 &bull; Cloud Computing Coursework Capstone
+  <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center space-x-2">
+        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+        <span><strong>EduCloud Platform</strong> &copy; 2026 &bull; Cloud Computing Coursework Capstone</span>
       </div>
-      <div class="flex items-center space-x-3">
-        <span>FastAPI + SQLite/PostgreSQL + Decoupled Cloud Storage</span>
+      <div class="flex items-center space-x-4">
+        <span class="text-slate-400">FastAPI &bull; Decoupled Cloud Storage &bull; JWT Auth &bull; Plagiarism Scanner</span>
       </div>
     </div>
   </footer>

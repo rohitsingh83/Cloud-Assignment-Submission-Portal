@@ -82,6 +82,8 @@ flowchart TD
 
 ## 📸 Application Architecture & Interface Visuals
 
+> 💡 **Visual Assets Directory**: Looking for individual high-res diagrams to post on LinkedIn, resumes, or PPT presentations? Visit the dedicated [**`screenshots/` Catalog**](./screenshots/README.md).
+
 <div align="center">
   <h3>🏗️ Multi-Tenant Cloud Architecture Diagram</h3>
   <img src="screenshots/architecture_diagram.svg" alt="Cloud Architecture Diagram" width="100%"/>
@@ -90,6 +92,14 @@ flowchart TD
   <h3>📊 Faculty Grading Desk & Student Assignment Portal</h3>
   <img src="screenshots/dashboard_preview.svg" alt="Dashboard Preview" width="100%"/>
   <br/><br/>
+
+  <h3>🔐 Institutional Authentication & 1-Click Demo Profiles</h3>
+  <img src="screenshots/login_portal_preview.svg" alt="Login Portal Preview" width="100%"/>
+  <br/><br/>
+
+  <h3>📝 Faculty Rubric Grading, Qualitative Feedback & Presets</h3>
+  <img src="screenshots/grading_evaluation_preview.svg" alt="Grading Evaluation Preview" width="100%"/>
+  <br/><br/>
   
   <h3>⚡ End-to-End Assignment Submission & Evaluation Pipeline</h3>
   <img src="screenshots/submission_flow.svg" alt="Submission Flow" width="100%"/>
@@ -97,7 +107,12 @@ flowchart TD
   
   <h3>✨ Built-In Cloud Plagiarism & Peer Similarity Scanner</h3>
   <img src="screenshots/plagiarism_scanner_preview.svg" alt="Plagiarism Scanner" width="100%"/>
+  <br/><br/>
+
+  <h3>📄 In-Browser Document Preview with Cloud Asset Streaming</h3>
+  <img src="screenshots/file_preview_modal.svg" alt="File Preview Modal" width="100%"/>
 </div>
+
 
 ---
 
